@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="fr" data-mode="works">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#050505">
+<title>NEXORA AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%229%22%20fill%3D%22%237A3FF2%22/%3E%3Cg%20stroke%3D%22%23fff%22%20stroke-width%3D%223.2%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M9.5%2024V9%22/%3E%3Cpath%20d%3D%22M9.5%209l13%2014%22/%3E%3Cpath%20d%3D%22M22.5%2023v-8%22/%3E%3C/g%3E%3Ccircle%20cx%3D%2222.5%22%20cy%3D%228.8%22%20r%3D%222.1%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root{--bg:#050505;--s1:#0b0b0d;--s2:#111114;--s3:#18181d;--line:#1f1f27;--tx:#ededf2;--mu:#7d7d8c;--ac:#7A3FF2;--acl:#b49aff;--onac:#fff;--f:Sora,"Segoe UI",system-ui,sans-serif;--mono:"JetBrains Mono","SF Mono",ui-monospace,Menlo,monospace;--r:12px;--fs:14.5px}
+:root[data-mode=codex]{--bg:#030907;--s1:#07110d;--s2:#0b1812;--s3:#112419;--line:#16291f;--tx:#dff5ea;--mu:#6c9080;--ac:#2EE6A6;--acl:#8bf5cf;--onac:#03150d;--f:"JetBrains Mono","SF Mono",ui-monospace,Menlo,monospace;--r:6px;--fs:13.5px}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--tx);font:var(--fs)/1.5 var(--f);height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+button{font:inherit;border:0;background:none;color:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+button:focus-visible,textarea:focus-visible{outline:2px solid var(--ac);outline-offset:-2px}
+svg{flex:none}
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+::view-transition-old(root){z-index:1}::view-transition-new(root){z-index:2}
+
+header{height:54px;flex:none;border-bottom:1px solid var(--line);background:var(--s1);display:flex;align-items:center;justify-content:space-between;padding:0 16px;position:relative;z-index:5}
+.brand{display:flex;align-items:center;gap:10px;min-width:140px}
+.wm{font-weight:700;font-size:17px;letter-spacing:-.02em}.wm i{font-style:normal;color:var(--ac);font-weight:500}
+.sw{position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:4px;background:var(--bg);border:1px solid var(--line);border-radius:calc(var(--r) + 3px);padding:3px}
+.sw button{flex-direction:column;align-items:flex-start;gap:0;line-height:1.25;padding:5px 18px;min-width:116px;border-radius:var(--r);border:1px solid transparent;color:var(--mu)}
+.sw b{font-weight:600;font-size:13.5px}.sw em{font-style:normal;font-size:11px}
+.sw button:hover{color:var(--tx)}.sw button.on{background:var(--s3);color:var(--tx);border-color:var(--ac)}
+.st{display:flex;align-items:center;gap:8px;color:var(--mu);font-size:12px;min-width:140px;justify-content:flex-end}
+.sd{width:7px;height:7px;border-radius:50%;background:var(--mu)}.sd.ok{background:var(--ac)}.sd.er{background:#ff6b6b}
+
+main{flex:1;min-height:0;position:relative}
+.ws{position:absolute;inset:0;display:flex;flex-direction:column}
+:root[data-mode=works] #m-codex,:root[data-mode=codex] #m-works{display:none}
+.log{flex:1;overflow-y:auto;padding:0 20px}
+.in{max-width:740px;margin:0 auto;padding:20px 0 28px}
+
+/* Accueil */
+.welcome{padding:9vh 0 0}
+.welcome svg{filter:drop-shadow(0 4px 24px color-mix(in srgb,var(--ac) 50%,transparent))}
+.welcome h2{font-size:28px;line-height:1.25;letter-spacing:-.02em;margin:18px 0 10px}
+.welcome u{text-decoration-color:var(--ac);text-decoration-thickness:3px;text-underline-offset:8px}
+.welcome p{color:var(--mu);margin:0 0 22px;line-height:1.7;max-width:500px}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:500px}
+.sg button{border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;text-align:left;background:var(--s1);color:var(--mu);font-size:13px}
+.sg button:hover{border-color:var(--ac);color:var(--tx)}
+
+/* Messages */
+.msg{display:flex;margin:18px 0;animation:fi .25s}@keyframes fi{from{opacity:0;transform:translateY(5px)}}
+.msg.user{justify-content:flex-end}
+.msg.user .b{background:var(--s3);border:1px solid var(--line);border-radius:var(--r) var(--r) 3px var(--r);padding:9px 14px;max-width:85%;white-space:pre-wrap;overflow-wrap:anywhere}
+#log-codex .msg.user .b::before{content:"> ";color:var(--ac)}
+.msg.assistant .b{width:100%;line-height:1.75;overflow-wrap:anywhere;min-width:0}
+.b.error{border-left:2px solid var(--ac);padding-left:12px}
+.md>*:first-child{margin-top:0}.md>*:last-child{margin-bottom:0}
+.md p{margin:0 0 13px}
+.md h1,.md h2,.md h3{font-weight:700;line-height:1.3;margin:22px 0 9px}.md h1{font-size:1.35em}.md h2{font-size:1.18em}.md h3{font-size:1.06em}
+.md strong{font-weight:700;color:#fff;text-decoration:underline;text-decoration-color:var(--ac);text-decoration-thickness:2px;text-underline-offset:4px}
+.md em{font-style:italic;opacity:.85}.md u{text-decoration-color:var(--ac);text-decoration-thickness:2px;text-underline-offset:4px}
+.md a{color:var(--acl)}.md ul,.md ol{margin:0 0 13px;padding-left:22px}.md li{margin:5px 0}.md li::marker{color:var(--ac);font-weight:700}
+.md blockquote{margin:14px 0;padding:3px 0 3px 15px;border-left:3px solid var(--ac);color:var(--mu)}.md blockquote p{margin:0 0 6px}
+.md hr{border:0;border-top:1px solid var(--line);margin:20px 0}
+.md code{font:.86em var(--mono);background:var(--s3);border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:var(--acl)}
+.md table{border-collapse:collapse;margin:0 0 13px;font-size:.92em;display:block;overflow-x:auto}.md th,.md td{border:1px solid var(--line);padding:6px 11px}.md th{background:var(--s2)}
+.cb{background:var(--s1);border:1px solid var(--line);border-radius:var(--r);margin:12px 0;overflow:hidden}
+.cb-h{display:flex;align-items:center;padding:5px 6px 5px 13px;border-bottom:1px solid var(--line);font:12px var(--mono);color:var(--mu)}.cb-h span{flex:1}
+.cb-h button{padding:2px 10px;border:1px solid var(--line);border-radius:calc(var(--r) - 2px);font-size:12px}.cb-h button:hover{border-color:var(--ac);color:var(--tx)}
+.cb pre{margin:0;padding:12px 14px;overflow-x:auto;font:12.5px/1.65 var(--mono)}
+.k{color:var(--acl)}.s{opacity:.8}.n{color:var(--ac)}.c{color:var(--mu);font-style:italic}
+
+/* Animation de réflexion */
+.think{padding:2px 0;width:min(100%,460px)}
+.tk-h{display:flex;align-items:center;gap:10px;color:var(--mu);font-size:13px;margin-bottom:13px}
+.tk-mark{width:24px;height:24px;filter:drop-shadow(0 0 9px color-mix(in srgb,var(--ac) 65%,transparent));animation:br 1.8s ease-in-out infinite}
+@keyframes br{0%,100%{transform:scale(.86);opacity:.7}50%{transform:scale(1.08);opacity:1}}
+.tk-lb{transition:opacity .22s}
+.tk-l{display:flex;flex-direction:column;gap:9px}
+.tk-l i{display:block;height:10px;border-radius:6px;background:linear-gradient(90deg,var(--s3) 20%,color-mix(in srgb,var(--ac) 50%,var(--s3)) 50%,var(--s3) 80%);background-size:230% 100%;animation:sh 1.5s linear infinite}
+.tk-l i:nth-child(1){width:94%}.tk-l i:nth-child(2){width:76%;animation-delay:.18s}.tk-l i:nth-child(3){width:50%;animation-delay:.36s}
+@keyframes sh{from{background-position:130% 0}to{background-position:-130% 0}}
+#log-codex .tk-mark{animation:fl 1s steps(2) infinite}
+@keyframes fl{50%{opacity:.35}}
+#log-codex .tk-l i{height:8px;border-radius:2px}
+#log-codex .tk-l i:nth-child(2){margin-left:22px;width:64%}#log-codex .tk-l i:nth-child(3){margin-left:44px;width:38%}
+#log-codex .tk-lb::after{content:"\258D";color:var(--ac);margin-left:5px;animation:bl 1s steps(1) infinite}
+@keyframes bl{50%{opacity:0}}
+
+/* Saisie */
+.composer{flex:none;padding:6px 20px 14px}
+.cbox{max-width:740px;margin:0 auto;position:relative}
+.card{background:var(--s2);border:1px solid var(--line);border-radius:calc(var(--r) + 5px);padding:10px 10px 8px 14px;transition:border-color .2s}.card:focus-within{border-color:var(--ac)}
+.card textarea{display:block;width:100%;background:none;border:0;outline:0;color:var(--tx);font:inherit;resize:none;padding:4px 0 8px;max-height:200px;line-height:1.55}
+.bar{display:flex;align-items:center;gap:6px}
+.chip{border:1px solid var(--line);border-radius:var(--r);padding:5px 10px;font-size:12px;color:var(--mu);white-space:nowrap}.chip:hover,.chip[aria-expanded=true]{color:var(--tx);border-color:var(--ac)}
+.chip.mdl{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.lv{display:inline-flex;gap:2px;align-items:flex-end;height:11px}.lv i{width:3px;background:var(--line);border-radius:1px}.lv i:nth-child(1){height:4px}.lv i:nth-child(2){height:6px}.lv i:nth-child(3){height:8px}.lv i:nth-child(4){height:11px}.lv i.on{background:var(--ac)}
+.send{margin-left:auto;width:34px;height:34px;justify-content:center;border-radius:var(--r);background:var(--ac);color:var(--onac);flex:none}.send:disabled{opacity:.4}
+.hint{font-size:11.5px;color:var(--mu);text-align:center;margin:8px 0 0;opacity:.8}
+.menu{display:none;position:absolute;left:0;bottom:calc(100% + 8px);width:360px;max-width:100%;background:var(--s1);border:1px solid var(--line);border-radius:calc(var(--r) + 3px);padding:6px;box-shadow:0 20px 60px #000e;z-index:10}
+.menu.open{display:block}
+.mi{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;padding:9px 10px;border-radius:var(--r);border-left:2px solid transparent}
+.mi:hover{background:var(--s3)}.mi.on{background:var(--s3);border-left-color:var(--ac)}
+.mi b{display:block;font-weight:600;font-size:13.5px}.mi small{display:block;color:var(--mu);font-size:12px;line-height:1.4}
+.tag{font-size:10.5px;color:var(--ac);border:1px solid var(--ac);border-radius:20px;padding:1px 7px;white-space:nowrap}
+
+@media(max-width:700px){
+ .sw{position:static;transform:none}.brand,.st{min-width:0}.sw button{min-width:0;padding:5px 14px}.sw em,.st span:last-child,.wm{display:none}
+ .sg{grid-template-columns:1fr}.welcome{padding-top:3vh}.welcome h2{font-size:23px}.composer{padding:6px 12px 12px}.log{padding:0 14px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff" stop-opacity=".2"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+<symbol id="lg" viewBox="0 0 32 32"><rect width="32" height="32" rx="9" fill="var(--ac)"/><rect width="32" height="32" rx="9" fill="url(#gl)"/><g stroke="var(--onac)" stroke-width="3.2" stroke-linecap="round" fill="none"><path d="M9.5 24V9"/><path d="M9.5 9l13 14"/><path d="M22.5 23v-8"/></g><circle cx="22.5" cy="8.8" r="2.1" fill="var(--onac)"/></symbol></svg>
+
+<header>
+<div class="brand"><svg width="30" height="30" aria-hidden="true"><use href="#lg"/></svg><span class="wm">nexora<i>ai</i></span></div>
+<div class="sw" id="sw" role="group" aria-label="Interface">
+<button type="button" data-m="works" class="on" aria-pressed="true"><b>Works</b><em>Écrire</em></button>
+<button type="button" data-m="codex" aria-pressed="false"><b>Codex</b><em>Coder</em></button>
+</div>
+<div class="st"><i class="sd" id="sd"></i><span id="stt">Connexion…</span></div>
+</header>
+
+<main>
+<section class="ws" id="m-works">
+<div class="log" id="log-works"><div class="in" id="in-works"><div class="welcome">
+<svg width="46" height="46" aria-hidden="true"><use href="#lg"/></svg>
+<h2>Comment puis-je vous <u>aider</u> ?</h2>
+<p>Rédaction, reformulation, résumé, réflexion : décrivez ce dont vous avez besoin.</p>
+<div class="sg" data-m="works"></div></div></div></div>
+<div class="composer" id="cmp-works"></div>
+</section>
+
+<section class="ws" id="m-codex">
+<div class="log" id="log-codex"><div class="in" id="in-codex"><div class="welcome">
+<svg width="46" height="46" aria-hidden="true"><use href="#lg"/></svg>
+<h2>Que dois-je <u>coder</u> ?</h2>
+<p>Décrivez la fonction ou le bug, ou collez votre code. Je réfléchis, j’écris le code et je vous le renvoie prêt à copier.</p>
+<div class="sg" data-m="codex"></div></div></div></div>
+<div class="composer" id="cmp-codex"></div>
+</section>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+const API=window.NEXORA_API_BASE||(()=>{try{return localStorage.getItem("nexora_api_base")}catch{return""}})()||"";
+const store={get(k,d){try{const v=JSON.parse(localStorage.getItem(k));return v??d}catch{return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}};
+
+/* Modèles et niveaux d'effort, propres à chaque interface */
+const MODELS={
+works:[
+{id:"nexora-3.5-light",n:"Aureon 3.8 Lite",d:"Très rapide pour les demandes simples."},
+{id:"nexora-3.5",n:"Aureon 5.4 Pro",d:"Plus précis pour les tâches exigeantes.",tag:"Recommandé"},
+{id:"nexora-3.5-pro-light",n:"Veltrix 4.2 Lite",d:"Rapide et léger pour les demandes courantes."},
+{id:"nexora-3.5-pro",n:"Veltrix 6.7 Pro",d:"Plus avancé pour les travaux complexes."}],
+codex:[
+{id:"nexora-code-3.5-light",n:"Krylex 3.6 Lite",d:"Rapide pour les petites fonctions et corrections."},
+{id:"nexora-code-3.5-pro-light",n:"Krylex 5.6 Pro",d:"Bon équilibre pour programmer au quotidien.",tag:"Recommandé"},
+{id:"nexora-code-3.5-pro",n:"Krylex 8.2 Ultra",d:"Pour les tâches de programmation les plus difficiles."},
+{id:"nexora-code-3.5-pro-max",n:"Arqen 4.1 Lite",d:"Rapide pour les petits projets et correctifs."},
+{id:"nexora-code-3.5-pro-max-2",n:"Arqen 7.3 Ultra",d:"Puissant pour les architectures et problèmes complexes."}]};
+const LEVELS={
+works:[["Léger","Réponses rapides et concises","normal"],["Standard","Équilibre entre vitesse et qualité","medium"],["Approfondi","Réflexion plus poussée","high"],["Maximal","Raisonnement le plus poussé","extra"]],
+codex:[["Rapide","Petites corrections, réponse immédiate","medium"],["Équilibré","Code fiable pour la plupart des tâches","high"],["Approfondi","Planifie et vérifie avant de répondre","extra"],["Intense","Architecture et bugs difficiles","ultra"]]};
+const sel=Object.assign({works:{m:1,l:1},codex:{m:1,l:2}},store.get("nexora_sel3",{}));
+const API_MODE={works:"work",codex:"code"};
+let mode="works",switching=false;
+
+/* Changement d'interface : le thème se propage en cercle depuis le bouton */
+function applyMode(m){
+ mode=m;document.documentElement.dataset.mode=m;
+ document.querySelectorAll("#sw button").forEach(b=>{const on=b.dataset.m===m;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on)});
+ document.querySelector("meta[name=theme-color]").content=m==="codex"?"#030907":"#050505";
+ closeMenus();
+}
+function setMode(m,ev){
+ if(m===mode||switching)return;
+ if(!document.startViewTransition||matchMedia("(prefers-reduced-motion: reduce)").matches){applyMode(m);inputs[m].focus({preventScroll:true});return}
+ const r=ev.currentTarget.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2;
+ const R=Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y));
+ switching=true;
+ const t=document.startViewTransition(()=>applyMode(m));
+ t.ready.then(()=>document.documentElement.animate({clipPath:["circle(0px at "+x+"px "+y+"px)","circle("+R+"px at "+x+"px "+y+"px)"]},{duration:850,easing:"cubic-bezier(.65,0,.2,1)",pseudoElement:"::view-transition-new(root)"})).catch(()=>{});
+ t.finished.finally(()=>{switching=false;inputs[m].focus({preventScroll:true})});
+}
+document.querySelectorAll("#sw button").forEach(b=>b.onclick=e=>setMode(b.dataset.m,e));
+
+/* Zone de saisie : modèle et effort */
+const inputs={},btns={},busy={},history={works:[],codex:[]};
+const PH={works:"Écrivez votre message",codex:"Décrivez ce que le code doit faire, ou collez-le ici"};
+const CHEV='<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+const SEND='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
+const bars=n=>'<span class="lv">'+[0,1,2,3].map(i=>"<i"+(i<=n?' class="on"':"")+"></i>").join("")+"</span>";
+const M=v=>MODELS[v][sel[v].m];
+function closeMenus(){document.querySelectorAll(".menu.open").forEach(m=>m.classList.remove("open"));document.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-expanded","false"))}
+function refreshChips(v){
+ const c=$("cmp-"+v);
+ c.querySelector('[data-k="m"].chip').innerHTML=M(v).n+" "+CHEV;
+ c.querySelector('[data-k="e"].chip').innerHTML=bars(sel[v].l)+" "+LEVELS[v][sel[v].l][0]+" "+CHEV;
+}
+function fillMenu(v,k){
+ const menu=$("cmp-"+v).querySelector('.menu[data-k="'+k+'"]');menu.innerHTML="";
+ const items=k==="m"?MODELS[v].map(x=>[x.n,x.d,x.tag]):LEVELS[v].map(x=>[x[0],x[1]]);
+ items.forEach(([n,d,tag],i)=>{
+  const b=document.createElement("button");b.type="button";b.className="mi"+(i===sel[v][k==="m"?"m":"l"]?" on":"");
+  b.innerHTML="<span><b>"+n+"</b><small>"+d+"</small></span>"+(tag?'<span class="tag">'+tag+"</span>":(k==="e"?bars(i):""));
+  b.onclick=()=>{sel[v][k==="m"?"m":"l"]=i;store.set("nexora_sel3",sel);refreshChips(v);closeMenus()};
+  menu.appendChild(b);
+ });
+}
+["works","codex"].forEach(v=>{
+ const c=$("cmp-"+v);
+ c.innerHTML='<div class="cbox"><div class="menu" data-k="m"></div><div class="menu" data-k="e"></div><div class="card"><textarea rows="1" aria-label="Message"></textarea><div class="bar"><button type="button" class="chip mdl" data-k="m" aria-expanded="false" aria-label="Modèle"></button><button type="button" class="chip" data-k="e" aria-expanded="false" aria-label="Niveau d’effort"></button><button type="button" class="send" aria-label="Envoyer">'+SEND+'</button></div></div><p class="hint">Entrée pour envoyer · Maj + Entrée pour passer à la ligne</p></div>';
+ const t=c.querySelector("textarea");t.placeholder=PH[v];inputs[v]=t;btns[v]=c.querySelector(".send");
+ t.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();doSend(v,t.value)}});
+ t.addEventListener("input",()=>{t.style.height="auto";t.style.height=Math.min(t.scrollHeight,200)+"px"});
+ btns[v].onclick=()=>doSend(v,t.value);
+ c.querySelectorAll(".chip").forEach(ch=>ch.onclick=e=>{e.stopPropagation();const k=ch.dataset.k,menu=c.querySelector('.menu[data-k="'+k+'"]'),was=menu.classList.contains("open");closeMenus();if(!was){fillMenu(v,k);menu.classList.add("open");ch.setAttribute("aria-expanded","true")}});
+ refreshChips(v);
+});
+document.addEventListener("click",e=>{if(!e.target.closest(".menu"))closeMenus()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMenus()});
+
+const SUG={
+works:[["Rédiger un e-mail","Rédige un e-mail professionnel pour "],["Résumer un texte","Résume le texte suivant en points clés :\n"],["Préparer un plan","Prépare un plan détaillé pour "],["Reformuler un message","Reformule ce message de façon claire et courtoise :\n"]],
+codex:[["Écrire une fonction","Écris une fonction qui "],["Corriger un bug","Corrige le bug dans ce code :\n"],["Expliquer du code","Explique ce code étape par étape :\n"],["Écrire des tests","Écris des tests pour ce code :\n"]]};
+document.querySelectorAll(".sg").forEach(g=>SUG[g.dataset.m].forEach(([t,p])=>{const b=document.createElement("button");b.type="button";b.textContent=t;b.onclick=()=>{const i=inputs[g.dataset.m];i.value=p;i.dispatchEvent(new Event("input"));i.focus()};g.appendChild(b)}));
+
+/* Rendu des réponses */
+const eh=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+function inl(s){
+ const k=[];s=s.replace(/`([^`\n]+)`/g,(_,c)=>"\x00"+(k.push(c)-1)+"\x00");
+ s=eh(s).replace(/"([^"\n]+)"/g,"\u00ab\u202f$1\u202f\u00bb").replace(/(\p{L})'(\p{L})/gu,"$1\u2019$2")
+  .replace(/\*\*([^*\n]+?)\*\*/g,"<strong>$1</strong>").replace(/__([^_\n]+?)__/g,"<u>$1</u>")
+  .replace(/(^|[\s(])\*([^*\n]+?)\*(?=[\s).,;:!?]|$)/g,"$1<em>$2</em>").replace(/(^|[\s(])_([^_\n]+?)_(?=[\s).,;:!?]|$)/g,"$1<em>$2</em>")
+  .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
+ return s.replace(/\x00(\d+)\x00/g,(_,i)=>"<code>"+eh(k[i])+"</code>");
+}
+function md(text){
+ const L=text.replace(/\r/g,"").split("\n");let h="",i=0,m;
+ const T=l=>/^\s*\|.*\|\s*$/.test(l),UL=/^\s*[-*\u2022]\s+/,OL=/^\s*\d+[.)]\s+/;
+ while(i<L.length){const l=L[i];
+  if(!l.trim()){i++;continue}
+  if(/^\s*(---+|\*\*\*+)\s*$/.test(l)){h+="<hr>";i++;continue}
+  if((m=l.match(/^\s*(#{1,4})\s+(.*)$/))){const n=Math.min(m[1].length,3);h+="<h"+n+">"+inl(m[2])+"</h"+n+">";i++;continue}
+  if(/^\s*>/.test(l)){const b=[];while(i<L.length&&/^\s*>/.test(L[i]))b.push(L[i++].replace(/^\s*>\s?/,""));h+="<blockquote>"+md(b.join("\n"))+"</blockquote>";continue}
+  if(UL.test(l)){const t=[];while(i<L.length&&UL.test(L[i]))t.push("<li>"+inl(L[i++].replace(UL,""))+"</li>");h+="<ul>"+t.join("")+"</ul>";continue}
+  if(OL.test(l)){const t=[];while(i<L.length&&OL.test(L[i]))t.push("<li>"+inl(L[i++].replace(OL,""))+"</li>");h+="<ol>"+t.join("")+"</ol>";continue}
+  if(T(l)&&L[i+1]&&/^\s*\|[\s:|-]+\|\s*$/.test(L[i+1])){
+   const c=r=>r.trim().replace(/^\||\|$/g,"").split("|").map(x=>inl(x.trim()));
+   let t="<table><thead><tr>"+c(l).map(x=>"<th>"+x+"</th>").join("")+"</tr></thead><tbody>";i+=2;
+   while(i<L.length&&T(L[i]))t+="<tr>"+c(L[i++]).map(x=>"<td>"+x+"</td>").join("")+"</tr>";
+   h+=t+"</tbody></table>";continue}
+  const p=[L[i++]];while(i<L.length&&L[i].trim()&&!/^\s*(#{1,4}\s|>|[-*\u2022]\s|\d+[.)]\s|---|\|)/.test(L[i]))p.push(L[i++]);
+  h+="<p>"+p.map(inl).join("<br>")+"</p>";}
+ return h;
+}
+const KW=/(\/\/.*|#.*)|("(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*'|`(?:\\.|[^`\\])*`)|\b(\d+(?:\.\d+)?)\b|\b(function|const|let|var|return|if|else|elif|for|while|class|import|from|export|default|new|async|await|try|catch|except|throw|raise|def|in|of|not|and|or|with|as|pass|lambda|switch|case|break|continue|true|false|null|undefined|None|True|False|print)\b/g;
+function hl(src){let o="",l=0,m;KW.lastIndex=0;
+ while((m=KW.exec(src))){o+=eh(src.slice(l,m.index))+'<span class="'+(m[1]?"c":m[2]?"s":m[3]?"n":"k")+'">'+eh(m[0])+"</span>";l=KW.lastIndex}
+ return o+eh(src.slice(l));}
+function render(text,box){
+ const re=/```([\w+-]*)\n?([\s\S]*?)```/g;let last=0,m;
+ const seg=s=>{if(s.trim()){const d=document.createElement("div");d.className="md";d.innerHTML=md(s);box.appendChild(d)}};
+ while((m=re.exec(text))){
+  seg(text.slice(last,m.index));last=re.lastIndex;
+  const code=m[2].replace(/\n$/,""),w=document.createElement("div");w.className="cb";
+  const h=document.createElement("div");h.className="cb-h";h.innerHTML="<span>"+eh(m[1]||"code")+"</span>";
+  const cp=document.createElement("button");cp.type="button";cp.textContent="Copier";
+  cp.onclick=async()=>{try{await navigator.clipboard.writeText(code);cp.textContent="Copié"}catch{cp.textContent="Échec"}setTimeout(()=>cp.textContent="Copier",1400)};
+  h.appendChild(cp);const pre=document.createElement("pre");pre.innerHTML=hl(code);w.append(h,pre);box.appendChild(w);}
+ seg(text.slice(last));
+}
+function add(v,role,text,cls){
+ const log=$("log-"+v),inn=$("in-"+v);inn.querySelector(".welcome")?.remove();
+ const r=document.createElement("div");r.className="msg "+role;
+ const b=document.createElement("div");b.className="b "+(cls||"");
+ if(role==="assistant"&&!cls)render(text,b);else b.textContent=text;
+ r.appendChild(b);inn.appendChild(r);log.scrollTop=log.scrollHeight;return r;
+}
+const PHRASES={works:["Analyse de la demande","Recherche des idées","Structuration","Rédaction"],codex:["Lecture du contexte","Planification","Écriture du code","Vérification"]};
+function thinking(v){
+ const log=$("log-"+v),inn=$("in-"+v);inn.querySelector(".welcome")?.remove();
+ const r=document.createElement("div");r.className="msg assistant";
+ r.innerHTML='<div class="b think"><div class="tk-h"><svg class="tk-mark" aria-hidden="true"><use href="#lg"/></svg><span class="tk-lb"></span></div><div class="tk-l"><i></i><i></i><i></i></div></div>';
+ const lb=r.querySelector(".tk-lb"),ph=PHRASES[v];let n=0;lb.textContent=ph[0];
+ const iv=setInterval(()=>{if(!r.isConnected){clearInterval(iv);return}lb.style.opacity=0;setTimeout(()=>{n=(n+1)%ph.length;lb.textContent=ph[n];lb.style.opacity=1},220)},1800);
+ inn.appendChild(r);log.scrollTop=log.scrollHeight;return r;
+}
+async function doSend(v,text){
+ text=text.trim();if(!text||busy[v])return;
+ busy[v]=1;btns[v].disabled=true;inputs[v].value="";inputs[v].style.height="auto";closeMenus();
+ add(v,"user",text);history[v].push({role:"user",content:text});
+ const th=thinking(v);
+ try{
+  if(!API)throw new Error("Le serveur NEXORA n’est pas encore configuré.");
+  const r=await fetch(API.replace(/\/+$/,"")+"/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:history[v].slice(-30),version:M(v).id,mode:API_MODE[v],effort:LEVELS[v][sel[v].l][2]})});
+  let d={};try{d=await r.json()}catch{}
+  if(!r.ok)throw new Error(d.error||"Erreur du serveur.");
+  const reply=d.reply||d.output_text||d.output;if(!reply)throw new Error("Réponse vide du serveur.");
+  th.remove();add(v,"assistant",reply);history[v].push({role:"assistant",content:reply});
+ }catch(e){th.remove();add(v,"assistant",e.message,"error")}
+ finally{busy[v]=0;btns[v].disabled=false;inputs[v].focus()}
+}
+(async()=>{
+ if(!API){$("stt").textContent="Serveur non configuré";return}
+ try{const r=await fetch(API.replace(/\/+$/,"")+"/api/health");const j=await r.json();const ok=j.ok&&j.aiConfigured;$("sd").className="sd "+(ok?"ok":"");$("stt").textContent=ok?"IA connectée":"Serveur connecté"}
+ catch{$("sd").className="sd er";$("stt").textContent="Serveur indisponible"}
+})();
+</script>
+</body>
+</html>
