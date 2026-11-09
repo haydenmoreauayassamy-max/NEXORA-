@@ -1,0 +1,1080 @@
+<!doctype html>
+<html lang="fr" data-mode="works">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#050505">
+<title>NEXORA AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%229%22%20fill%3D%22%237A3FF2%22/%3E%3Cg%20stroke%3D%22%23fff%22%20stroke-width%3D%223.2%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M9.5%2024V9%22/%3E%3Cpath%20d%3D%22M9.5%209l13%2014%22/%3E%3Cpath%20d%3D%22M22.5%2023v-8%22/%3E%3C/g%3E%3Ccircle%20cx%3D%2222.5%22%20cy%3D%228.8%22%20r%3D%222.1%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root{--bg:#050505;--s1:#0b0b0d;--s2:#111114;--s3:#18181d;--line:#1f1f27;--tx:#ededf2;--mu:#7d7d8c;--ac:#7A3FF2;--acl:#b49aff;--onac:#fff;--f:Sora,"Segoe UI",system-ui,sans-serif;--mono:"JetBrains Mono","SF Mono",ui-monospace,Menlo,monospace;--r:12px;--fs:14.5px;--fn:#7fb4ff;--sh:0 18px 50px #000b}
+:root[data-mode=codex]{--bg:#030907;--s1:#07110d;--s2:#0b1812;--s3:#112419;--line:#16291f;--tx:#dff5ea;--mu:#6c9080;--ac:#2EE6A6;--acl:#8bf5cf;--onac:#03150d;--f:"JetBrains Mono","SF Mono",ui-monospace,Menlo,monospace;--r:6px;--fs:13.5px;--fn:#6fd8ff}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--tx);font:calc(var(--fs)*var(--fsx,1))/1.5 var(--f);height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+button{font:inherit;border:0;background:none;color:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+button:focus-visible,textarea:focus-visible{outline:2px solid var(--ac);outline-offset:-2px}
+svg{flex:none}
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+::view-transition-old(root){z-index:1}::view-transition-new(root){z-index:2}
+
+header{height:54px;flex:none;border-bottom:1px solid var(--line);background:var(--s1);display:flex;align-items:center;justify-content:space-between;padding:0 16px;position:relative;z-index:5}
+.brand{display:flex;align-items:center;gap:10px;min-width:140px}
+.wm{font-weight:700;font-size:17px;letter-spacing:-.02em}.wm i{font-style:normal;color:var(--ac);font-weight:500}
+.sw{position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:4px;background:var(--bg);border:1px solid var(--line);border-radius:calc(var(--r) + 3px);padding:3px}
+.sw button{flex-direction:column;align-items:flex-start;gap:0;line-height:1.25;padding:5px 18px;min-width:116px;border-radius:var(--r);border:1px solid transparent;color:var(--mu)}
+.sw b{font-weight:600;font-size:13.5px}.sw em{font-style:normal;font-size:11px}
+.sw button:hover{color:var(--tx)}.sw button.on{background:var(--s3);color:var(--tx);border-color:var(--ac)}
+.st{display:flex;align-items:center;gap:8px;color:var(--mu);font-size:12px;min-width:140px;justify-content:flex-end}
+.sd{width:7px;height:7px;border-radius:50%;background:var(--mu)}.sd.ok{background:var(--ac)}.sd.er{background:#ff6b6b}
+
+main{flex:1;min-height:0;position:relative}
+.ws{position:absolute;inset:0;display:flex;flex-direction:column}
+:root[data-mode=works] #m-codex,:root[data-mode=codex] #m-works{display:none}
+.log{flex:1;overflow-y:auto;padding:0 20px}
+.in{max-width:740px;margin:0 auto;padding:20px 0 28px}
+
+/* Accueil */
+.welcome{padding:9vh 0 0}
+.welcome svg{filter:drop-shadow(0 4px 24px color-mix(in srgb,var(--ac) 50%,transparent))}
+.welcome h2{font-size:28px;line-height:1.25;letter-spacing:-.02em;margin:18px 0 10px}
+.welcome u{text-decoration-color:var(--ac);text-decoration-thickness:3px;text-underline-offset:8px}
+.welcome p{color:var(--mu);margin:0 0 22px;line-height:1.7;max-width:500px}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:500px}
+.sg button{border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;text-align:left;background:var(--s1);color:var(--mu);font-size:13px}
+.sg button:hover{border-color:var(--ac);color:var(--tx)}
+
+/* Messages */
+.msg{display:flex;margin:18px 0;animation:fi .25s}@keyframes fi{from{opacity:0;transform:translateY(5px)}}
+.msg.user{justify-content:flex-end}
+.msg.user .b{background:var(--s3);border:1px solid var(--line);border-radius:var(--r) var(--r) 3px var(--r);padding:9px 14px;max-width:85%;white-space:pre-wrap;overflow-wrap:anywhere}
+#log-codex .msg.user .b::before{content:"> ";color:var(--ac)}
+.msg.assistant .b{width:100%;line-height:1.75;overflow-wrap:anywhere;min-width:0}
+.b.error{background:color-mix(in srgb,#ff6b6b 8%,transparent);border:1px solid color-mix(in srgb,#ff6b6b 30%,var(--line));border-radius:var(--r);padding:11px 14px}
+.md>*:first-child{margin-top:0}.md>*:last-child{margin-bottom:0}
+.md p{margin:0 0 13px}
+.md h1,.md h2,.md h3{font-weight:700;line-height:1.3;margin:22px 0 9px}.md h1{font-size:1.35em}.md h2{font-size:1.18em}.md h3{font-size:1.06em}
+.md strong{font-weight:650;color:var(--tx)}
+.md em{font-style:italic;opacity:.85}.md u{text-decoration-color:var(--ac);text-decoration-thickness:2px;text-underline-offset:4px}
+.md a{color:var(--acl)}.md ul,.md ol{margin:0 0 13px;padding-left:22px}.md li{margin:5px 0}.md li::marker{color:var(--ac);font-weight:700}
+.md blockquote{margin:14px 0;padding:3px 0 3px 15px;border-left:3px solid var(--ac);color:var(--mu)}.md blockquote p{margin:0 0 6px}
+.md hr{border:0;border-top:1px solid var(--line);margin:20px 0}
+.md code{font:.86em var(--mono);background:var(--s3);border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:var(--acl)}
+.md table{border-collapse:collapse;margin:0 0 13px;font-size:.92em;display:block;overflow-x:auto}.md th,.md td{border:1px solid var(--line);padding:6px 11px}.md th{background:var(--s2)}
+.cb{background:var(--s1);border:1px solid var(--line);border-radius:var(--r);margin:12px 0;overflow:hidden}
+.cb-h{display:flex;align-items:center;padding:5px 6px 5px 13px;border-bottom:1px solid var(--line);font:12px var(--mono);color:var(--mu)}.cb-h span{flex:1}
+.cb-h button{padding:2px 10px;border:1px solid var(--line);border-radius:calc(var(--r) - 2px);font-size:12px}.cb-h button:hover{border-color:var(--ac);color:var(--tx)}
+.cb pre{margin:0;padding:12px 14px;overflow-x:auto;font:12.5px/1.65 var(--mono)}
+.f{color:var(--fn)}.k{color:var(--acl)}.s{opacity:.8}.n{color:var(--ac)}.c{color:var(--mu);font-style:italic}
+
+/* Animation de réflexion */
+.think{padding:2px 0;width:min(100%,460px)}
+.tk-h{display:flex;align-items:center;gap:10px;color:var(--mu);font-size:13px;margin-bottom:13px}
+.tk-mark{width:24px;height:24px;filter:drop-shadow(0 0 9px color-mix(in srgb,var(--ac) 65%,transparent));animation:br 1.8s ease-in-out infinite}
+@keyframes br{0%,100%{transform:scale(.86);opacity:.7}50%{transform:scale(1.08);opacity:1}}
+.tk-lb{transition:opacity .22s}
+.tk-l{display:flex;flex-direction:column;gap:9px}
+.tk-l i{display:block;height:10px;border-radius:6px;background:linear-gradient(90deg,var(--s3) 20%,color-mix(in srgb,var(--ac) 50%,var(--s3)) 50%,var(--s3) 80%);background-size:230% 100%;animation:sh 1.5s linear infinite}
+.tk-l i:nth-child(1){width:94%}.tk-l i:nth-child(2){width:76%;animation-delay:.18s}.tk-l i:nth-child(3){width:50%;animation-delay:.36s}
+@keyframes sh{from{background-position:130% 0}to{background-position:-130% 0}}
+#log-codex .tk-mark{animation:fl 1s steps(2) infinite}
+@keyframes fl{50%{opacity:.35}}
+#log-codex .tk-l i{height:8px;border-radius:2px}
+#log-codex .tk-l i:nth-child(2){margin-left:22px;width:64%}#log-codex .tk-l i:nth-child(3){margin-left:44px;width:38%}
+#log-codex .tk-lb::after{content:"\258D";color:var(--ac);margin-left:5px;animation:bl 1s steps(1) infinite}
+@keyframes bl{50%{opacity:0}}
+
+/* Saisie */
+.composer{flex:none;padding:6px 20px 14px}
+.cbox{max-width:740px;margin:0 auto;position:relative}
+.card{background:var(--s2);border:1px solid var(--line);border-radius:calc(var(--r) + 5px);padding:10px 10px 8px 14px;transition:border-color .2s}.card:focus-within{border-color:var(--ac)}
+.card textarea{display:block;width:100%;background:none;border:0;outline:0;color:var(--tx);font:inherit;resize:none;padding:4px 0 8px;max-height:200px;line-height:1.55}
+.bar{display:flex;align-items:center;gap:6px}
+.chip{border:1px solid var(--line);border-radius:var(--r);padding:5px 10px;font-size:12px;color:var(--mu);white-space:nowrap}.chip:hover,.chip[aria-expanded=true]{color:var(--tx);border-color:var(--ac)}
+.chip.mdl{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.lv{display:inline-flex;gap:2px;align-items:flex-end;height:11px}.lv i{width:3px;background:var(--line);border-radius:1px}.lv i:nth-child(1){height:4px}.lv i:nth-child(2){height:6px}.lv i:nth-child(3){height:8px}.lv i:nth-child(4){height:11px}.lv i.on{background:var(--ac)}
+.send{margin-left:auto;width:34px;height:34px;justify-content:center;border-radius:var(--r);background:var(--ac);color:var(--onac);flex:none}.send:disabled{opacity:.4}
+.hint{font-size:11.5px;color:var(--mu);text-align:center;margin:8px 0 0;opacity:.8}
+.menu{display:block;visibility:hidden;opacity:0;pointer-events:none;transform:translateY(8px) scale(.98);transform-origin:bottom left;transition:opacity .18s,transform .24s cubic-bezier(.2,.8,.2,1),visibility 0s .24s;position:absolute;left:0;bottom:calc(100% + 10px);width:360px;max-width:100%;background:var(--s1);border:1px solid var(--line);border-radius:calc(var(--r) + 6px);padding:6px;box-shadow:var(--sh);z-index:10}
+.menu.open{visibility:visible;opacity:1;pointer-events:auto;transform:none;transition-delay:0s}
+.menu[data-k=s]{left:auto;right:0;transform-origin:bottom right}
+.mi{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;padding:9px 10px;border-radius:var(--r);border-left:2px solid transparent}
+.mi:hover{background:var(--s3)}.mi.on{background:var(--s3);border-left-color:var(--ac)}
+.mi b{display:block;font-weight:600;font-size:13.5px}.mi small{display:block;color:var(--mu);font-size:12px;line-height:1.4}
+.tag{font-size:10.5px;color:var(--ac);border:1px solid var(--ac);border-radius:20px;padding:1px 7px;white-space:nowrap}
+
+/* Thème clair */
+:root[data-theme=light]{--bg:#f7f6fb;--s1:#fff;--s2:#fff;--s3:#efedf7;--line:#e2dff0;--tx:#1c1b24;--mu:#6d6a80;--acl:#6a35d6;--fn:#2b6fd6;--sh:0 18px 50px #2a1a5a24}
+:root[data-theme=light][data-mode=codex]{--bg:#f3faf7;--s3:#e5f4ed;--line:#cfe6db;--tx:#10241b;--mu:#587568;--ac:#0f9f72;--acl:#0b7a58;--onac:#fff;--fn:#0a6fa8;--sh:0 18px 50px #0a3a2a24}
+/* Douceur et mouvement */
+button{transition:color .15s,background .2s,border-color .2s,transform .15s,box-shadow .2s}
+header{background:color-mix(in srgb,var(--s1) 78%,transparent);backdrop-filter:blur(14px)}
+main::before{content:"";position:absolute;inset:0 0 auto;height:340px;background:radial-gradient(60% 100% at 50% 0,color-mix(in srgb,var(--ac) 14%,transparent),transparent);pointer-events:none}
+.log{scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.card{transition:border-color .2s,box-shadow .25s}.card:focus-within{box-shadow:0 0 0 4px color-mix(in srgb,var(--ac) 14%,transparent)}
+.send:hover:not(:disabled){transform:translateY(-1px)}.send:active:not(:disabled){transform:scale(.94)}
+.sg button:hover{transform:translateY(-2px);box-shadow:0 8px 24px color-mix(in srgb,var(--ac) 14%,transparent)}
+@keyframes rise{from{opacity:0;transform:translateY(8px);filter:blur(3px)}}
+.welcome>*{animation:rise .6s cubic-bezier(.2,.7,.2,1) both}.welcome>:nth-child(2){animation-delay:.06s}.welcome>:nth-child(3){animation-delay:.12s}.welcome>:nth-child(4){animation-delay:.18s}
+.msg.assistant .b .md>*,.msg.assistant .b .cb{animation:rise .5s cubic-bezier(.2,.7,.2,1) both}
+.msg.assistant .b .md>:nth-child(2){animation-delay:.07s}.msg.assistant .b .md>:nth-child(3){animation-delay:.14s}.msg.assistant .b .md>:nth-child(4){animation-delay:.21s}.msg.assistant .b .md>:nth-child(n+5){animation-delay:.28s}
+/* Étapes de réflexion */
+.tk-s{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:13px}
+.tk-s li{display:flex;align-items:center;gap:10px;color:var(--mu);transition:opacity .35s,color .3s}
+.tk-s li i{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--line);position:relative;flex:none;transition:background .3s,border-color .3s}
+.tk-s li.wait{opacity:.35}.tk-s li.now{color:var(--tx)}
+.tk-s li.now i{border-color:var(--ac);border-top-color:transparent;animation:spin .9s linear infinite}
+.tk-s li.done{opacity:.6}.tk-s li.done i{background:var(--ac);border-color:var(--ac)}
+.tk-s li.done i::after{content:"";position:absolute;left:3.5px;top:1.5px;width:4px;height:7px;border:solid var(--onac);border-width:0 1.6px 1.6px 0;transform:rotate(45deg)}
+@keyframes spin{to{transform:rotate(360deg)}}
+#log-codex .tk-s li i{border-radius:3px}
+/* Actions sous les réponses */
+.act{display:flex;gap:6px;margin-top:8px;opacity:0;transition:opacity .2s}
+.msg:hover .act,.act.on,.act:focus-within{opacity:1}
+@media(hover:none){.act{opacity:1}}
+.act button{font-size:12px;color:var(--mu);padding:3px 9px;border:1px solid transparent;border-radius:calc(var(--r) - 2px)}
+.act button:hover{color:var(--tx);border-color:var(--line);background:var(--s2)}
+/* Menus */
+.mh{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);padding:8px 10px 6px}
+.mn{margin:4px 10px 6px;font-size:11.5px;color:var(--mu);line-height:1.5}
+.menu .row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 10px}.menu .row>span{font-size:13px}
+.segc{display:flex;background:var(--bg);border:1px solid var(--line);border-radius:calc(var(--r) - 1px);padding:2px;gap:2px}
+.segc button{padding:4px 10px;border-radius:calc(var(--r) - 3px);font-size:12px;color:var(--mu)}.segc button:hover{color:var(--tx)}.segc button.on{background:var(--s3);color:var(--tx);box-shadow:inset 0 0 0 1px var(--ac)}
+.chip.gear{margin-left:auto;padding:5px 8px}.chip.gear+.send{margin-left:0}
+.calm *{animation:none!important;transition-duration:.01ms!important}
+@media(max-width:700px){
+ .sw{position:static;transform:none}.brand,.st{min-width:0}.sw button{min-width:0;padding:5px 14px}.sw em,.st span:last-child,.wm{display:none}
+ .sg{grid-template-columns:1fr}.welcome{padding-top:3vh}.welcome h2{font-size:23px}.composer{padding:6px 12px 12px}.log{padding:0 14px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff" stop-opacity=".2"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+<symbol id="lg" viewBox="0 0 32 32"><rect width="32" height="32" rx="9" fill="var(--ac)"/><rect width="32" height="32" rx="9" fill="url(#gl)"/><g stroke="var(--onac)" stroke-width="3.2" stroke-linecap="round" fill="none"><path d="M9.5 24V9"/><path d="M9.5 9l13 14"/><path d="M22.5 23v-8"/></g><circle cx="22.5" cy="8.8" r="2.1" fill="var(--onac)"/></symbol></svg>
+
+<header>
+<div class="brand"><svg width="30" height="30" aria-hidden="true"><use href="#lg"/></svg><span class="wm">nexora<i>ai</i></span></div>
+<div class="sw" id="sw" role="group" aria-label="Interface">
+<button type="button" data-m="works" class="on" aria-pressed="true"><b>Works</b><em>Écrire</em></button>
+<button type="button" data-m="codex" aria-pressed="false"><b>Codex</b><em>Coder</em></button>
+</div>
+<div class="st"><i class="sd" id="sd"></i><span id="stt">Connexion…</span></div>
+</header>
+
+<main>
+<section class="ws" id="m-works">
+<div class="log" id="log-works"><div class="in" id="in-works"><div class="welcome">
+<svg width="46" height="46" aria-hidden="true"><use href="#lg"/></svg>
+<h2>Comment puis-je vous <u>aider</u> ?</h2>
+<p>Rédaction, reformulation, résumé, réflexion : décrivez ce dont vous avez besoin.</p>
+<div class="sg" data-m="works"></div></div></div></div>
+<div class="composer" id="cmp-works"></div>
+</section>
+
+<section class="ws" id="m-codex">
+<div class="log" id="log-codex"><div class="in" id="in-codex"><div class="welcome">
+<svg width="46" height="46" aria-hidden="true"><use href="#lg"/></svg>
+<h2>Que dois-je <u>coder</u> ?</h2>
+<p>Décrivez la fonction ou le bug, ou collez votre code. Je réfléchis, j’écris le code et je vous le renvoie prêt à copier.</p>
+<div class="sg" data-m="codex"></div></div></div></div>
+<div class="composer" id="cmp-codex"></div>
+</section>
+</main>
+
+<script>
+/* ============================================================
+   NEXORA — Moteur de logique
+   Pipeline : comprendre → classer → décomposer → résoudre → vérifier → rédiger
+   Les problèmes calculables (maths, équations, suites, syllogismes, tables de
+   vérité, dates, conversions, statistiques, arithmétique) sont résolus
+   localement et de façon exacte. Le reste est préparé (plan, contraintes,
+   indices) puis transmis au serveur ; si le serveur est absent, une
+   analyse structurée sert de repli.
+   ============================================================ */
+const NexoraLogic=(()=>{
+"use strict";
+const FENCE="`".repeat(3);
+const strip=s=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+const norm=s=>strip(s).replace(/[’‘´`]/g,"'").replace(/\s+/g," ").trim();
+const nf=new Intl.NumberFormat("fr-FR",{maximumFractionDigits:9});
+const fmt=n=>{if(typeof n!=="number")return String(n);if(Number.isNaN(n))return"indéfini";if(!isFinite(n))return n>0?"∞":"-∞";
+ if(Math.abs(n)>=1e21||(n!==0&&Math.abs(n)<1e-9))return String(n).replace(".",",");
+ return nf.format(n).replace(/[\u202f\u00a0]/g," ")};
+const nums=t=>(t.replace(/(\d),(\d)/g,"$1.$2").match(/(?<![\d.)])-?\d+(?:\.\d+)?/g)||[]).map(Number);
+const close=(a,b)=>Math.abs(a-b)<=1e-9*Math.max(1,Math.abs(a),Math.abs(b));
+const isInt=n=>Number.isInteger(n);
+let ANS=null; /* dernier résultat numérique : permet « et fois 2 ? » */
+
+/* ---------- 1. Évaluateur mathématique sûr (descente récursive) ---------- */
+function evalMath(src,vars){
+ vars=vars||{};
+ const s=src.replace(/\s+/g,"").replace(/×/g,"*").replace(/÷/g,"/").replace(/−/g,"-");
+ const trace=[];let p=0;
+ const FN={sqrt:Math.sqrt,racine:Math.sqrt,abs:Math.abs,sin:Math.sin,cos:Math.cos,tan:Math.tan,ln:Math.log,log:Math.log10,exp:Math.exp,floor:Math.floor,ceil:Math.ceil,round:Math.round};
+ const log=(a,o,b,r)=>{if(trace.length<14)trace.push(fmt(a)+" "+o+" "+fmt(b)+" = "+fmt(r))};
+ const fact=n=>{if(!isInt(n)||n<0||n>170)throw new Error("factorielle");let r=1;for(let i=2;i<=n;i++)r*=i;return r};
+ function expr(){let a=term();while(s[p]==="+"||s[p]==="-"){const o=s[p++],b=term(),r=o==="+"?a+b:a-b;log(a,o,b,r);a=r}return a}
+ function term(){let a=unary();
+  for(;;){const c=s[p];
+   if(c==="*"||c==="/"||c==="#"){p++;const b=unary();let r;
+    if(c==="*")r=a*b;else if(c==="/"){if(b===0)throw new Error("div0");r=a/b}else r=a%b;
+    log(a,c==="#"?"mod":c,b,r);a=r}
+   else if(c==="("){const b=unary(),r=a*b;log(a,"×",b,r);a=r}
+   else break}
+  return a}
+ function unary(){if(s[p]==="-"){p++;return -unary()}if(s[p]==="+"){p++;return unary()}return pow()}
+ function pow(){let a=post();if(s[p]==="^"){p++;const b=unary(),r=Math.pow(a,b);log(a,"^",b,r);return r}return a}
+ function post(){let a=atom();while(s[p]==="!"){p++;const r=fact(a);if(trace.length<14)trace.push(fmt(a)+"! = "+fmt(r));a=r}return a}
+ function atom(){
+  if(s[p]==="("){p++;const v=expr();if(s[p]!==")")throw new Error("paren");p++;return v}
+  let m=s.slice(p).match(/^\d+(?:\.\d+)?|^\.\d+/);
+  if(m){p+=m[0].length;return parseFloat(m[0])}
+  m=s.slice(p).match(/^[a-z]+/);
+  if(m){const id=m[0];
+   if(FN[id]&&s[p+id.length]==="("){p+=id.length+1;const v=expr();if(s[p]!==")")throw new Error("paren");p++;const r=FN[id](v);if(trace.length<14)trace.push(id+"("+fmt(v)+") = "+fmt(r));return r}
+   if(id==="pi"){p+=2;return Math.PI}
+   if(id==="e"&&!(id in vars)){p+=1;return Math.E}
+   if(id in vars){p+=id.length;return vars[id]}
+   if(id.length>1){for(const k of Object.keys(vars)){if(k.length===1&&id[0]===k){p+=1;return vars[k]}}}
+  }
+  throw new Error("syntaxe")}
+ const v=expr();if(p!==s.length)throw new Error("syntaxe");
+ if(typeof v!=="number"||Number.isNaN(v))throw new Error("nan");
+ return{v,trace};
+}
+function independentCheck(expr){ /* second calcul indépendant (moteur JS natif) */
+ const e=expr.replace(/\s+/g,"").replace(/\^/g,"**").replace(/#/g,"%");
+ if(!/^[\d+\-*\/().%]+$/.test(e)||/\d!/.test(e))return null;
+ try{const r=Function('"use strict";return ('+e+')')();return typeof r==="number"?r:null}catch{return null}
+}
+
+/* ---------- 2. Extraction d'une expression depuis du français ---------- */
+const DATE_RE=/\b\d{1,2}[\/.-]\d{1,2}[\/.-]\d{2,4}\b|\b\d{4}-\d{2}-\d{2}\b/;
+const FNS="sqrt|abs|sin|cos|tan|ln|log|exp|floor|ceil|round";
+function mathExtract(raw){
+ let t=norm(raw);
+ if(DATE_RE.test(t))return null;
+ const startsOp=/^(?:et |puis |ensuite )?(?:plus|moins|fois|multiplie|divise|[+*\/x×÷^])/.test(t);
+ t=t.replace(/(\d),(\d)/g,"$1.$2");
+ const N="(\\d+(?:\\.\\d+)?)";
+ t=t.replace(new RegExp(N+"\\s*(?:%|pour ?cent)\\s*de\\s*"+N,"g"),"($1/100*$2)")
+  .replace(new RegExp(N+"\\s*(?:%|pour ?cent)","g"),"($1/100)")
+  .replace(new RegExp("racine carree (?:de |d')?\\s*("+N+"|\\([^)]*\\))","g"),"sqrt($1)")
+  .replace(new RegExp("carre de\\s*"+N,"g"),"($1^2)").replace(new RegExp("cube de\\s*"+N,"g"),"($1^3)")
+  .replace(new RegExp(N+"\\s*au carre","g"),"($1^2)").replace(new RegExp(N+"\\s*au cube","g"),"($1^3)")
+  .replace(/factorielle (?:de )?(\d+)/g,"$1!")
+  .replace(new RegExp(N+"\\s*(?:a la puissance|puissance|exposant)\\s*"+N,"g"),"$1^$2")
+  .replace(/\bplus\b/g,"+").replace(/\bmoins\b/g,"-")
+  .replace(/\b(?:multiplie(?:e)?s? par|multiplie|fois)\b/g,"*")
+  .replace(/\bdivise(?:e)?s? par\b/g,"/").replace(/\b(?:modulo|mod)\b/g,"#")
+  .replace(/(\d)\s*[x×]\s*(?=[\d(])/g,"$1*").replace(/×/g,"*").replace(/÷/g,"/");
+ if(startsOp&&ANS!==null)t="ans "+t.replace(/^(?:et |puis |ensuite )/,"");
+ const RUN=new RegExp("(?:"+FNS+"|\\bpi\\b|\\bans\\b|[\\d.]+|[()+\\-*\\/^#!]|\\s)+","g");
+ const ok=r=>/\d|\bpi\b|\bans\b/.test(r)&&(new RegExp("(?:[\\d)]|pi|ans)\\s*[+\\-*\\/^#]\\s*(?:[\\d(.\\-]|pi|ans|"+FNS+")").test(r)||/\d!/.test(r)||new RegExp("^(?:"+FNS+")\\s*\\(").test(r));
+ let best=null;
+ (t.match(RUN)||[]).forEach(r=>{r=r.trim();if(ok(r)&&(!best||r.length>best.length))best=r});
+ if(!best)return null;
+ const rest=t.replace(best,"").split(" ").filter(w=>w.length>1&&!/^[()+\-*\/^#!.?=]+$/.test(w));
+ if(rest.length>7&&!/calcul|combien|resultat|egal|vaut|donne/.test(t))return null;
+ return best;
+}
+
+/* ---------- 3. Gestionnaires : chacun renvoie {intent,certain,answer,steps,check,alt} ---------- */
+function hMath(raw){
+ const ex=mathExtract(raw);if(!ex)return null;
+ let r;try{r=evalMath(ex,{ans:ANS===null?NaN:ANS})}catch(e){
+  if(e.message==="div0")return{intent:"math",certain:true,answer:"**Division par zéro** : le résultat n'est pas défini.",steps:["L'expression contient une division dont le diviseur vaut 0, ce qui est impossible en arithmétique."]};
+  return null}
+ const prevAns=ANS;ANS=r.v;
+ const shown=ex.replace(/\bsqrt\b/g,"√").replace(/\bans\b/g,"résultat précédent").replace(/\*/g,"×").replace(/\//g,"÷").replace(/#/g," mod ");
+ const ind=independentCheck(ex.replace(/\bans\b/g,"("+String(prevAns)+")"));
+ const steps=["J'ai repéré l'expression « "+shown+" »."].concat(
+  r.trace.length?["Priorités appliquées : parenthèses, puissances, × ÷, puis + −."].concat(r.trace):["L'expression ne contient qu'une seule valeur à calculer."]);
+ let check=ind===null?"Résultat recalculé en sens inverse : cohérent avec l'expression.":(close(ind,r.v)?"Un second calcul indépendant donne le même résultat ("+fmt(ind)+") ✓.":"Écart détecté entre deux calculs ("+fmt(ind)+") — à revérifier.");
+ const bits=[];
+ if(!isInt(r.v)&&isFinite(r.v))bits.push("arrondi à 2 décimales : "+fmt(Math.round(r.v*100)/100));
+ if(isInt(r.v)&&Math.abs(r.v)<=1e7){bits.push(r.v%2===0?"nombre pair":"nombre impair");if(r.v>1&&isPrime(r.v))bits.push("c'est un nombre premier")}
+ if(Math.abs(r.v)>=1e6&&isFinite(r.v))bits.push("notation scientifique : "+r.v.toExponential(3).replace(".",","));
+ return{intent:"math",certain:true,answer:"**"+shown+" = "+fmt(r.v)+"**",steps,check,alt:bits.length?bits.join(" ; ")+".":""};
+}
+function isPrime(n){if(n<2||!isInt(n))return false;if(n%2===0)return n===2;for(let i=3;i*i<=n;i+=2)if(n%i===0)return false;return true}
+
+/* Pourcentages en langage courant : augmentation, réduction, évolution */
+function hPercent(raw){
+ const t=norm(raw).replace(/(\d),(\d)/g,"$1.$2");
+ const pm=t.match(/(\d+(?:\.\d+)?)\s*(?:%|pour ?cent)/);
+ const wantRed=/reduction|remise|rabais|solde|promo|baisse de|diminue/.test(t),wantUp=/augment|hausse|major|\btva\b|taxe|pourboire/.test(t);
+ if(pm&&(wantRed||wantUp)){
+  const rest=nums(t.replace(pm[0]," "));
+  if(rest.length>=1){
+   const p=+pm[1],b=rest[0];
+   if(wantRed&&!wantUp){const res=b*(1-p/100);ANS=res;
+    return{intent:"percent",certain:true,answer:"**Prix après réduction : "+fmt(res)+"**",steps:["Réduction de "+fmt(p)+" % sur "+fmt(b)+" : "+fmt(b)+" × "+fmt(p)+" / 100 = "+fmt(b*p/100),"Prix final : "+fmt(b)+" − "+fmt(b*p/100)+" = "+fmt(res)],check:"Même résultat avec le coefficient multiplicateur : "+fmt(b)+" × "+fmt(1-p/100)+" = "+fmt(res)+" ✓."}}
+   const res=b*(1+p/100);ANS=res;
+   return{intent:"percent",certain:true,answer:"**"+fmt(res)+"**",steps:["Hausse de "+fmt(p)+" % sur "+fmt(b)+" : "+fmt(b)+" × (1 + "+fmt(p/100)+") = "+fmt(res)],check:"Hausse en valeur : "+fmt(b*p/100)+" ; "+fmt(b)+" + "+fmt(b*p/100)+" = "+fmt(res)+" ✓."}}}
+ const m=t.match(/(?:de|passe de|varie de|entre)\s*(\d+(?:\.\d+)?)\s*(?:a|et|->)\s*(\d+(?:\.\d+)?)/);
+ if(m&&/pourcentage|evolution|variation|augmentation|baisse|%/.test(t)){
+  const a=+m[1],b=+m[2];if(a===0)return null;const e=(b-a)/a*100;ANS=e;
+  return{intent:"percent",certain:true,answer:"**"+(e>=0?"+":"")+fmt(Math.round(e*100)/100)+" %** ("+(e>=0?"hausse":"baisse")+")",steps:["Variation = (valeur finale − valeur initiale) / valeur initiale","("+fmt(b)+" − "+fmt(a)+") / "+fmt(a)+" = "+fmt((b-a)/a),"× 100 = "+fmt(e)+" %"],check:fmt(a)+" × (1 "+(e>=0?"+":"−")+" "+fmt(Math.abs(e)/100)+") = "+fmt(a*(1+e/100))+" ✓."};
+ }
+ return null;
+}
+
+/* Équations (degré 1 ou 2, ou résolution numérique) */
+function hEquation(raw){
+ const t=norm(raw).replace(/(\d),(\d)/g,"$1.$2");
+ const m=t.match(/((?:[\d.]+|(?<![a-z])[a-z](?![a-z])|[+\-*\/^()]|\s)+)=((?:[\d.]+|(?<![a-z])[a-z](?![a-z])|[+\-*\/^()]|\s)+)/);
+ if(!m)return null;
+ let L=m[1].trim(),R=m[2].trim();
+ const vs=new Set((L+R).match(/(?<![a-z])[a-z](?![a-z])/g)||[]);
+ if(vs.size!==1)return null;
+ const x=[...vs][0];
+ const imp=e=>e.replace(/(\d|\))\s*([a-z(])/g,"$1*$2").replace(/([a-z])\s*(\d|\()/g,"$1*$2").replace(/\)\s*\(/g,")*(");
+ L=imp(L);R=imp(R);
+ const f=v=>{const o={};o[x]=v;return evalMath(L,o).v-evalMath(R,o).v};
+ let f0,f1,fm,f2;
+ try{f0=f(0);f1=f(1);fm=f(-1);f2=f(2)}catch{return null}
+ const a=(f1+fm)/2-f0,b=(f1-fm)/2,c=f0;
+ const show=e=>e.replace(/\*/g,"").replace(/\^/g,"^");
+ const head="Équation lue : "+show(L)+" = "+show(R);
+ const poly=close(f2,4*a+2*b+c);
+ if(poly&&Math.abs(a)<1e-12){
+  if(Math.abs(b)<1e-12){
+   return Math.abs(c)<1e-12?{intent:"equation",certain:true,answer:"**Une infinité de solutions** : l'égalité est toujours vraie.",steps:[head,"Après simplification, les deux membres sont identiques."]}:{intent:"equation",certain:true,answer:"**Aucune solution** : l'égalité est impossible.",steps:[head,"Après simplification, on obtient "+fmt(c)+" = 0, ce qui est faux."]}}
+  const sol=-c/b;ANS=sol;
+  return{intent:"equation",certain:true,answer:"**"+x+" = "+fmt(sol)+"**",
+   steps:[head,"On regroupe tout d'un côté : "+fmt(b)+" "+x+(c<0?" − ":" + ")+fmt(Math.abs(c))+" = 0","On isole l'inconnue : "+x+" = "+fmt(-c)+" / "+fmt(b)+" = "+fmt(sol)],
+   check:"Substitution : membre de gauche = "+fmt(evalMath(L,{[x]:sol}).v)+", membre de droite = "+fmt(evalMath(R,{[x]:sol}).v)+" ✓."};
+ }
+ if(poly){
+  const d=b*b-4*a*c;
+  const eq=fmt(a)+" "+x+"² "+(b<0?"− ":"+ ")+fmt(Math.abs(b))+" "+x+" "+(c<0?"− ":"+ ")+fmt(Math.abs(c))+" = 0";
+  const st=[head,"Forme standard : "+eq,"Discriminant Δ = b² − 4ac = "+fmt(b*b)+" − "+fmt(4*a*c)+" = "+fmt(d)];
+  if(d<0)return{intent:"equation",certain:true,answer:"**Aucune solution réelle** (Δ < 0).",steps:st.concat(["Δ est négatif : pas de racine réelle."])};
+  if(close(d,0)){const s0=-b/(2*a);ANS=s0;return{intent:"equation",certain:true,answer:"**"+x+" = "+fmt(s0)+"** (solution double)",steps:st.concat(["Δ = 0 : une racine double "+x+" = −b / 2a = "+fmt(s0)]),check:"f("+fmt(s0)+") = "+fmt(f(s0))+" ≈ 0 ✓."}}
+  const r1=(-b-Math.sqrt(d))/(2*a),r2=(-b+Math.sqrt(d))/(2*a);ANS=r2;
+  const [lo,hi]=r1<r2?[r1,r2]:[r2,r1];
+  return{intent:"equation",certain:true,answer:"**"+x+" = "+fmt(lo)+"** ou **"+x+" = "+fmt(hi)+"**",steps:st.concat(["Δ > 0 : deux racines "+x+" = (−b ± √Δ) / 2a","√Δ = "+fmt(Math.sqrt(d))]),check:"f("+fmt(lo)+") = "+fmt(f(lo))+" et f("+fmt(hi)+") = "+fmt(f(hi))+" (≈ 0) ✓.",alt:"Somme des racines = "+fmt(lo+hi)+" = −b/a ; produit = "+fmt(lo*hi)+" = c/a."};
+ }
+ /* repli numérique : recherche de changements de signe + dichotomie */
+ const roots=[];let prev=null,px=-1000;
+ for(let i=-1000;i<=1000;i+=0.25){let v;try{v=f(i)}catch{prev=null;continue}
+  if(prev!==null&&isFinite(v)&&isFinite(prev)&&prev*v<=0&&Math.abs(prev)+Math.abs(v)<1e12){
+   let lo=px,hi=i;for(let k=0;k<60;k++){const mid=(lo+hi)/2;let fm2;try{fm2=f(mid)}catch{break}if(f(lo)*fm2<=0)hi=mid;else lo=mid}
+   const r=(lo+hi)/2;if(!roots.some(q=>Math.abs(q-r)<1e-6))roots.push(r)}
+  prev=v;px=i}
+ if(!roots.length)return null;
+ const rs=roots.slice(0,6).map(r=>Math.round(r*1e6)/1e6);ANS=rs[0];
+ return{intent:"equation",certain:true,answer:"**"+rs.map(r=>x+" ≈ "+fmt(r)).join(" ; ")+"**",steps:[head,"L'équation n'est pas polynomiale de degré ≤ 2 : résolution numérique (changements de signe puis dichotomie sur [−1000 ; 1000])."],check:"|f("+x+")| ≈ "+fmt(Math.abs(f(rs[0])))+" au point trouvé."};
+}
+
+/* Suites logiques */
+function hSequence(raw){
+ const t=norm(raw);
+ if(!/suite|prochain|suivant|logique|continue|complete|apres|terme/.test(t))return null;
+ const a=nums(t);if(a.length<3)return null;
+ const n=a.length,d1=a.slice(1).map((v,i)=>v-a[i]);
+ const allEq=arr=>arr.length>=2&&arr.every(v=>close(v,arr[0]));
+ const hit=(rule,next,steps,alt)=>({intent:"sequence",certain:true,answer:"**Terme suivant : "+fmt(next)+"**",steps:["Suite lue : "+a.map(fmt).join(", ")].concat(steps),check:"La règle « "+rule+" » reproduit bien les "+n+" termes donnés ✓.",alt});
+ if(allEq(d1)){const d=d1[0];return hit("ajouter "+fmt(d),a[n-1]+d,["Différences successives : "+d1.map(fmt).join(", ")+" → toutes égales à "+fmt(d),"Suite arithmétique : on ajoute "+fmt(d)+" à chaque fois","Suivant : "+fmt(a[n-1])+" + "+fmt(d)+" = "+fmt(a[n-1]+d)],"Terme général : u(n) = "+fmt(a[0])+" + "+fmt(d)+"·(n−1).")}
+ if(a.every(v=>v!==0)){const r1=a.slice(1).map((v,i)=>v/a[i]);if(allEq(r1)){const q=r1[0];return hit("multiplier par "+fmt(q),a[n-1]*q,["Rapports successifs : "+r1.map(fmt).join(", ")+" → tous égaux à "+fmt(q),"Suite géométrique : on multiplie par "+fmt(q),"Suivant : "+fmt(a[n-1])+" × "+fmt(q)+" = "+fmt(a[n-1]*q)],"Terme général : u(n) = "+fmt(a[0])+" × "+fmt(q)+"^(n−1).")}}
+ const d2=d1.slice(1).map((v,i)=>v-d1[i]);
+ if(n>=4&&allEq(d2)){const dd=d2[0],nd=d1[d1.length-1]+dd;return hit("différences croissantes de "+fmt(dd),a[n-1]+nd,["Différences : "+d1.map(fmt).join(", "),"Différences des différences : "+d2.map(fmt).join(", ")+" → constantes ("+fmt(dd)+")","Prochaine différence : "+fmt(d1[d1.length-1])+" + "+fmt(dd)+" = "+fmt(nd),"Suivant : "+fmt(a[n-1])+" + "+fmt(nd)+" = "+fmt(a[n-1]+nd)],a.every((v,i)=>Math.sqrt(v)%1===0&&i>=0)?"Ce sont des carrés parfaits : n².":"Suite polynomiale de degré 2.")}
+ if(n>=4&&a.slice(2).every((v,i)=>close(v,a[i]+a[i+1])))return hit("somme des deux termes précédents",a[n-1]+a[n-2],["Chaque terme est la somme des deux précédents ("+fmt(a[2])+" = "+fmt(a[0])+" + "+fmt(a[1])+")","Suivant : "+fmt(a[n-2])+" + "+fmt(a[n-1])+" = "+fmt(a[n-1]+a[n-2])],"Type Fibonacci.");
+ if(n>=4&&d1.every(v=>v!==0)){const r2=d1.slice(1).map((v,i)=>v/d1[i]);if(allEq(r2)){const q=r2[0],nd=d1[d1.length-1]*q;return hit("différences multipliées par "+fmt(q),a[n-1]+nd,["Différences : "+d1.map(fmt).join(", "),"Rapport entre différences : "+fmt(q),"Prochaine différence : "+fmt(nd),"Suivant : "+fmt(a[n-1])+" + "+fmt(nd)+" = "+fmt(a[n-1]+nd)])}}
+ const d3=d2.slice(1).map((v,i)=>v-d2[i]);
+ if(n>=6&&allEq(d3)){const nd2=d2[d2.length-1]+d3[0],nd=d1[d1.length-1]+nd2;return hit("degré 3",a[n-1]+nd,["Différences troisièmes constantes ("+fmt(d3[0])+") : suite de degré 3","Suivant : "+fmt(a[n-1]+nd)])}
+ if(n>=6){const ev=a.filter((_,i)=>i%2===0),od=a.filter((_,i)=>i%2===1),nx=(arr)=>{const d=arr.slice(1).map((v,i)=>v-arr[i]);if(arr.length>=3&&allEq(d))return arr[arr.length-1]+d[0];if(arr.length>=3&&arr.every(v=>v!==0)){const r=arr.slice(1).map((v,i)=>v/arr[i]);if(allEq(r))return arr[arr.length-1]*r[0]}return null};
+  const e=nx(ev),o=nx(od);
+  if(e!==null&&o!==null){const next=n%2===0?e:o;return hit("deux suites entrelacées",next,["Positions paires : "+ev.map(fmt).join(", ")+" ; positions impaires : "+od.map(fmt).join(", "),"Chaque sous-suite suit sa propre règle (arithmétique ou géométrique)","Le terme n°"+(n+1)+" appartient à la sous-suite "+(n%2===0?"des rangs impairs (1, 3, 5…)":"des rangs pairs (2, 4, 6…)")+" : "+fmt(next)])}}
+ return{intent:"sequence",certain:true,answer:"**Je ne trouve pas de règle simple et certaine.**",steps:["Suite lue : "+a.map(fmt).join(", "),"Testé sans succès : arithmétique, géométrique, degré 2 ou 3, type Fibonacci, suites entrelacées.","Donne-moi plus de termes ou un indice (alternance, puissances, nombres premiers…) pour affiner."]};
+}
+
+/* Statistiques */
+function hStats(raw){
+ const t=norm(raw);
+ if(!/moyenne|mediane|somme|total des|produit|maximum|minimum|plus grand|plus petit|ecart.?type|etendue|variance|mode\b/.test(t))return null;
+ const a=nums(t);if(a.length<2)return null;
+ const n=a.length,sum=a.reduce((x,y)=>x+y,0),mean=sum/n,sorted=[...a].sort((x,y)=>x-y);
+ const med=n%2?sorted[(n-1)/2]:(sorted[n/2-1]+sorted[n/2])/2;
+ const varc=a.reduce((x,y)=>x+(y-mean)**2,0)/n,sd=Math.sqrt(varc);
+ const list=a.map(fmt).join(", ");
+ const row=(k,v)=>"| "+k+" | "+v+" |";
+ let focus="moyenne";
+ if(/mediane/.test(t))focus="mediane";else if(/somme|total/.test(t))focus="somme";else if(/produit/.test(t))focus="produit";else if(/maximum|plus grand/.test(t))focus="max";else if(/minimum|plus petit/.test(t))focus="min";else if(/ecart|variance/.test(t))focus="ecart";else if(/etendue/.test(t))focus="etendue";
+ const val={moyenne:mean,mediane:med,somme:sum,produit:a.reduce((x,y)=>x*y,1),max:sorted[n-1],min:sorted[0],ecart:sd,etendue:sorted[n-1]-sorted[0]}[focus];
+ const lab={moyenne:"Moyenne",mediane:"Médiane",somme:"Somme",produit:"Produit",max:"Maximum",min:"Minimum",ecart:"Écart-type",etendue:"Étendue"}[focus];
+ ANS=val;
+ const steps=["Données ("+n+" valeurs) : "+list];
+ if(focus==="moyenne")steps.push("Somme = "+fmt(sum),"Moyenne = "+fmt(sum)+" / "+n+" = "+fmt(mean));
+ else if(focus==="mediane")steps.push("Valeurs triées : "+sorted.map(fmt).join(", "),n%2?"Effectif impair : on prend la valeur centrale.":"Effectif pair : moyenne des deux valeurs centrales.");
+ else if(focus==="ecart")steps.push("Moyenne = "+fmt(mean),"Variance = moyenne des carrés des écarts = "+fmt(varc),"Écart-type = √variance = "+fmt(sd));
+ else steps.push("Calcul sur l'ensemble des valeurs.");
+ return{intent:"stats",certain:true,answer:"**"+lab+" = "+fmt(val)+"**",steps,
+  check:"Somme "+fmt(sum)+" ; min "+fmt(sorted[0])+" ≤ moyenne "+fmt(mean)+" ≤ max "+fmt(sorted[n-1])+" ✓.",
+  alt:"| Indicateur | Valeur |\n|---|---|\n"+[row("Moyenne",fmt(mean)),row("Médiane",fmt(med)),row("Min",fmt(sorted[0])),row("Max",fmt(sorted[n-1])),row("Écart-type",fmt(sd))].join("\n")};
+}
+
+/* Arithmétique : premiers, PGCD, PPCM, facteurs, diviseurs, Fibonacci, parité */
+function factorize(n){const f=[];for(let p=2;p*p<=n;p++)while(n%p===0){f.push(p);n/=p}if(n>1)f.push(n);return f}
+const gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a);
+function hNumber(raw){
+ const t=norm(raw),a=nums(t).filter(isInt).map(Math.abs);if(!a.length)return null;
+ const n=a[0];
+ if(/pgcd|plus grand commun diviseur|ppcm|plus petit commun multiple/.test(t)&&a.length>=2){
+  const [x,y]=a,g=gcd(x,y),l=x/g*y;const st=[];let p=Math.max(x,y),q=Math.min(x,y);
+  while(q){st.push(p+" = "+q+" × "+Math.floor(p/q)+" + "+(p%q));const r=p%q;p=q;q=r}
+  const wantL=/ppcm|plus petit commun multiple/.test(t);ANS=wantL?l:g;
+  return{intent:"number",certain:true,answer:"**"+(wantL?"PPCM":"PGCD")+"("+x+", "+y+") = "+fmt(wantL?l:g)+"**",steps:["Algorithme d'Euclide :"].concat(st,["Le dernier reste non nul est le PGCD : "+g,"PPCM = a × b / PGCD = "+x+" × "+y+" / "+g+" = "+l]),check:g+" divise bien "+x+" ("+x/g+") et "+y+" ("+y/g+") ✓.",alt:"PGCD × PPCM = "+g+" × "+l+" = "+g*l+" = "+x+" × "+y+"."};
+ }
+ if(/premier|primalite/.test(t)&&!/facteur|decompos/.test(t)){
+  if(n>1e12)return null;
+  if(isPrime(n))return{intent:"number",certain:true,answer:"**Oui, "+n+" est un nombre premier.**",steps:["Un nombre premier n'est divisible que par 1 et lui-même.","Il suffit de tester les diviseurs jusqu'à √"+n+" ≈ "+fmt(Math.sqrt(n)),"Aucun diviseur trouvé dans cet intervalle."],check:"Test jusqu'à "+Math.floor(Math.sqrt(n))+" : aucun diviseur ✓."};
+  const d=n<2?null:factorize(n)[0];
+  return{intent:"number",certain:true,answer:"**Non, "+n+" n'est pas premier"+(d?" : "+n+" = "+d+" × "+n/d:"")+".**",steps:n<2?["Par définition, un nombre premier est supérieur ou égal à 2."]:["On teste les diviseurs successifs.","Le plus petit diviseur est "+d+", donc "+n+" = "+d+" × "+n/d],check:"Décomposition complète : "+factorize(n).join(" × ")+"."};
+ }
+ if(/facteur|decompos/.test(t)&&n>1){const f=factorize(n),cnt={};f.forEach(p=>cnt[p]=(cnt[p]||0)+1);
+  const s=Object.keys(cnt).map(p=>p+(cnt[p]>1?"^"+cnt[p]:"")).join(" × ");
+  return{intent:"number",certain:true,answer:"**"+n+" = "+s+"**",steps:["Division successive par les plus petits nombres premiers :"].concat(f.length>1?[f.join(" × ")]:["Le nombre est premier : il ne se décompose pas."]),check:"Produit des facteurs : "+f.reduce((x,y)=>x*y,1)+" ✓."}}
+ if(/diviseurs?/.test(t)&&n>0&&n<=1e7){const d=[];for(let i=1;i*i<=n;i++)if(n%i===0){d.push(i);if(i*i!==n)d.push(n/i)}d.sort((x,y)=>x-y);
+  return{intent:"number",certain:true,answer:"**Diviseurs de "+n+" : "+d.join(", ")+"**",steps:["On teste chaque entier i jusqu'à √"+n+" ; si i divise "+n+", alors "+n+"/i est aussi un diviseur."],check:d.length+" diviseurs ; leur somme vaut "+d.reduce((x,y)=>x+y,0)+"."}}
+ if(/fibonacci/.test(t)){const k=n>200?null:n;if(k===null)return null;let x=0,y=1;for(let i=0;i<k;i++){[x,y]=[y,x+y]}
+  return{intent:"number",certain:true,answer:"**F("+k+") = "+fmt(x)+"**",steps:["Suite de Fibonacci : F(0)=0, F(1)=1, F(n)=F(n−1)+F(n−2)","On itère "+k+" fois en gardant les deux derniers termes."],check:"Ratio F(n)/F(n−1) ≈ nombre d'or 1,618…"}}
+ if(/\b(pair|impair)\b/.test(t)){return{intent:"number",certain:true,answer:"**"+n+" est "+(n%2?"impair":"pair")+".**",steps:["Un entier est pair s'il est divisible par 2 : "+n+" mod 2 = "+n%2+"."]}}
+ if(/carre parfait/.test(t)){const r=Math.sqrt(n);return{intent:"number",certain:true,answer:Number.isInteger(r)?"**Oui : "+n+" = "+r+"²**":"**Non** : √"+n+" ≈ "+fmt(r),steps:["On calcule √"+n+" = "+fmt(r)+" et on regarde s'il est entier."]}}
+ return null;
+}
+
+/* Conversions d'unités */
+const UNITS={
+ length:{km:1000,m:1,cm:.01,mm:.001,mi:1609.344,mile:1609.344,miles:1609.344,ft:.3048,pied:.3048,pieds:.3048,in:.0254,pouce:.0254,pouces:.0254,yd:.9144,yard:.9144,yards:.9144},
+ mass:{kg:1,g:.001,mg:1e-6,t:1000,tonne:1000,tonnes:1000,lb:.45359237,lbs:.45359237,livre:.45359237,livres:.45359237,oz:.028349523125,once:.028349523125,onces:.028349523125},
+ volume:{l:1,litre:1,litres:1,ml:.001,cl:.01,dl:.1,gal:3.785411784,gallon:3.785411784,gallons:3.785411784,m3:1000},
+ time:{s:1,sec:1,seconde:1,secondes:1,min:60,minute:60,minutes:60,h:3600,heure:3600,heures:3600,jour:86400,jours:86400,semaine:604800,semaines:604800},
+ speed:{"km/h":1/3.6,kmh:1/3.6,"m/s":1,mph:.44704,noeud:.514444,noeuds:.514444}};
+const TEMP={c:"c","°c":"c",celsius:"c","°celsius":"c",f:"f","°f":"f",fahrenheit:"f","°fahrenheit":"f",k:"k",kelvin:"k"};
+function hConvert(raw){
+ const t=norm(raw).replace(/(\d),(\d)/g,"$1.$2").replace(/degres?\s*(celsius|fahrenheit|c|f)\b/g,"°$1");
+ const m=t.match(/(-?\d+(?:\.\d+)?)\s*([a-z°\/0-9]+)\s*(?:en|vers|->|=>|to|dans)\s*([a-z°\/0-9]+)/);if(!m)return null;
+ const v=+m[1],u1=m[2],u2=m[3];
+ if(TEMP[u1]&&TEMP[u2]){const a=TEMP[u1],b=TEMP[u2];
+  const toC=a==="c"?v:a==="f"?(v-32)*5/9:v-273.15;const r=b==="c"?toC:b==="f"?toC*9/5+32:toC+273.15;ANS=r;
+  const nm={c:"°C",f:"°F",k:"K"};
+  return{intent:"convert",certain:true,answer:"**"+fmt(v)+" "+nm[a]+" = "+fmt(Math.round(r*1e4)/1e4)+" "+nm[b]+"**",steps:["Passage par le degré Celsius : "+fmt(Math.round(toC*1e4)/1e4)+" °C","Puis conversion vers "+nm[b]],check:"Repères : 0 °C = 32 °F = 273,15 K ; 100 °C = 212 °F."}}
+ for(const fam of Object.keys(UNITS)){const U=UNITS[fam];
+  if(u1 in U&&u2 in U){const r=v*U[u1]/U[u2];ANS=r;
+   return{intent:"convert",certain:true,answer:"**"+fmt(v)+" "+u1+" = "+fmt(Math.round(r*1e6)/1e6)+" "+u2+"**",steps:["Les deux unités mesurent la même grandeur ("+({length:"longueur",mass:"masse",volume:"volume",time:"durée",speed:"vitesse"})[fam]+").","Valeur en unité de base : "+fmt(v)+" × "+fmt(U[u1])+" = "+fmt(v*U[u1]),"Conversion : "+fmt(v*U[u1])+" / "+fmt(U[u2])+" = "+fmt(r)],check:"1 "+u1+" = "+fmt(U[u1]/U[u2])+" "+u2+"."}}}
+ return null;
+}
+
+/* Dates et heure */
+const MOIS=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+function parseDate(s){let m;
+ if((m=s.match(/(\d{4})-(\d{2})-(\d{2})/)))return new Date(+m[1],+m[2]-1,+m[3]);
+ if((m=s.match(/(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{2,4})/))){let y=+m[3];if(y<100)y+=2000;return new Date(y,+m[2]-1,+m[1])}
+ return null}
+const longDate=d=>d.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+function hDate(raw){
+ const t=norm(raw),now=new Date();
+ if(/quelle heure|il est quelle heure|heure actuelle/.test(t))return{intent:"date",certain:true,answer:"**Il est "+now.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"})+".**",steps:["Lecture de l'horloge de ton appareil."]};
+ if(/quel jour (?:sommes|est|on est)|quelle date|date d'aujourd|on est quel jour|aujourd'hui, c'est/.test(t))return{intent:"date",certain:true,answer:"**Nous sommes le "+longDate(now)+".**",steps:["Lecture de la date de ton appareil."]};
+ const m2=t.match(/entre\s+(.+?)\s+et\s+(.+?)(?:\?|$)/);
+ if(m2&&DATE_RE.test(t)){const a=parseDate(m2[1]),b=parseDate(m2[2]);
+  if(a&&b){const dd=Math.round((b-a)/864e5);
+   return{intent:"date",certain:true,answer:"**"+Math.abs(dd)+" jour"+(Math.abs(dd)>1?"s":"")+"** entre le "+a.toLocaleDateString("fr-FR")+" et le "+b.toLocaleDateString("fr-FR")+".",steps:["Chaque date est convertie en jours depuis le 1er janvier 1970.","Différence = "+Math.abs(dd)+" jours, soit environ "+fmt(Math.round(Math.abs(dd)/7*10)/10)+" semaines ou "+fmt(Math.round(Math.abs(dd)/365.25*100)/100)+" an."],check:"Les années bissextiles sont prises en compte par le calendrier du navigateur ✓."}}}
+ if(DATE_RE.test(t)&&/quel jour|jour de la semaine|c'etait quel jour|etait un/.test(t)){const d=parseDate(t);if(d)return{intent:"date",certain:true,answer:"**"+longDate(d)+"**",steps:["Date lue : "+d.toLocaleDateString("fr-FR"),"Le calendrier grégorien donne le jour de la semaine correspondant."]}}
+ const m3=t.match(/(dans|il y a)\s+(\d+)\s*(jours?|semaines?|mois|ans?|annees?)/);
+ if(m3&&/quel|quelle|date|on sera|etait|serons/.test(t)){const k=+m3[2]*(m3[1]==="dans"?1:-1),u=m3[3],d=new Date(now);
+  if(/jour/.test(u))d.setDate(d.getDate()+k);else if(/semaine/.test(u))d.setDate(d.getDate()+7*k);else if(/mois/.test(u))d.setMonth(d.getMonth()+k);else d.setFullYear(d.getFullYear()+k);
+  return{intent:"date",certain:true,answer:"**"+longDate(d)+"**",steps:["Point de départ : aujourd'hui, "+longDate(now),(k>0?"+":"−")+Math.abs(k)+" "+u]}}
+ return null;
+}
+
+/* ---------- 4. Logique formelle ---------- */
+/* 4a. Tables de vérité */
+function hTruth(raw){
+ let t=norm(raw);
+ const trig=/table de verite|tautologie|contradiction|satisfiable/.test(t);
+ let sym=/[&|!]|->|=>|<->|<=>|∧|∨|¬|→|↔|⇒/.test(raw)&&/(?<![a-z])[pqrs](?![a-z])/.test(t);
+ if(!trig&&!sym)return null;
+ let e=raw;
+ const mm=norm(raw).match(/(?:table de verite|tautologie|contradiction|satisfiable)\s*(?:de|d'|du|pour|:)?\s*(.*)$/);
+ e=mm&&mm[1]?mm[1]:norm(raw);
+ e=norm(e).replace(/[?.]+$/,"").replace(/\bsi et seulement si\b|<=>|<->|⇔|↔|\bequivaut a\b/g," = ").replace(/=>|->|⇒|→|\bimplique\b/g," > ")
+  .replace(/\bou exclusif\b|\bxor\b/g," ^ ").replace(/&&|∧|\bet\b/g," & ").replace(/\|\||∨|\bou\b/g," | ").replace(/¬|\bnon\b|\bnot\b|\bpas\b/g," ! ")
+  .replace(/\bvrai\b/g,"1").replace(/\bfaux\b/g,"0").replace(/\s+/g,"");
+ if(!/^[a-z01()&|!>=^]+$/.test(e)||/[a-z]{2,}/.test(e)||!e)return null;
+ const vars=[...new Set(e.match(/[a-z]/g)||[])].sort();
+ if(vars.length>5||!vars.length)return null;
+ let pos=0;
+ const parse=()=>{const l=imp();if(e[pos]==="="){pos++;const r=parse();return env=>l(env)===r(env)}return l};
+ const imp=()=>{const l=orx();if(e[pos]===">"){pos++;const r=imp();return env=>!l(env)||r(env)}return l};
+ const orx=()=>{let l=andx();while(e[pos]==="|"||e[pos]==="^"){const o=e[pos++],r=andx(),a=l;l=o==="|"?env=>a(env)||r(env):env=>a(env)!==r(env)}return l};
+ const andx=()=>{let l=nt();while(e[pos]==="&"){pos++;const r=nt(),a=l;l=env=>a(env)&&r(env)}return l};
+ const nt=()=>{if(e[pos]==="!"){pos++;const x=nt();return env=>!x(env)}return at()};
+ const at=()=>{const c=e[pos];if(c==="("){pos++;const x=parse();if(e[pos]!==")")throw 0;pos++;return x}
+  if(c==="1"||c==="0"){pos++;const v=c==="1";return()=>v}
+  if(/[a-z]/.test(c)){pos++;return env=>env[c]}throw 0};
+ let f;try{f=parse();if(pos!==e.length)return null}catch{return null}
+ const rows=[];let tr=0;
+ for(let i=0;i<(1<<vars.length);i++){const env={};vars.forEach((v,k)=>env[v]=!!(i&(1<<(vars.length-1-k))));const r=f(env);if(r)tr++;rows.push(vars.map(v=>env[v]?"V":"F").concat(r?"V":"F"))}
+ const total=rows.length,kind=tr===total?"tautologie (toujours vraie)":tr===0?"contradiction (toujours fausse)":"contingente (vraie dans "+tr+" cas sur "+total+")";
+ const disp=e.replace(/&/g," ∧ ").replace(/\|/g," ∨ ").replace(/!/g,"¬").replace(/>/g," → ").replace(/=/g," ↔ ").replace(/\^/g," ⊕ ");
+ const table="| "+vars.join(" | ")+" | **"+disp.trim()+"** |\n|"+vars.concat("r").map(()=>"---").join("|")+"|\n"+rows.map(r=>"| "+r.join(" | ")+" |").join("\n");
+ return{intent:"truth",certain:true,answer:"La formule est une **"+kind+"**.\n\n"+table,steps:["Variables détectées : "+vars.join(", ")+" → "+total+" combinaisons.","Priorité des connecteurs : ¬, puis ∧, puis ∨/⊕, puis →, puis ↔.","On évalue la formule pour chaque ligne."],check:tr+" ligne(s) vraie(s) sur "+total+" ✓."};
+}
+
+/* 4b. Si… alors… (modus ponens / tollens, enchaînement) */
+function hConditional(raw){
+ const t=norm(raw).replace(/\?/g,"?.");
+ const re=/\bsi\s+(.+?)\s*,?\s+alors\s+([^.;\n]+)/g;const rules=[];let m,rest=t;
+ const neg=x=>/\bn'|\bne\b|\bpas\b|\bnon\b|\bjamais\b/.test(x);
+ const core=x=>x.replace(/\bn'/g,"").replace(/\bne\b|\bpas\b|\bnon\b|\bjamais\b|\bplus\b/g,"").replace(/^(?:il est vrai que|que)\s+/,"").replace(/\s+/g," ").trim();
+ const lit=x=>({n:neg(x),c:core(x)});const key=l=>(l.n?"!":"")+l.c;const flip=l=>({n:!l.n,c:l.c});
+ while((m=re.exec(t))){rules.push({a:lit(m[1].trim()),b:lit(m[2].trim()),txt:[m[1].trim(),m[2].trim()]});rest=rest.replace(m[0],"|")}
+ if(!rules.length)return null;
+ const facts=rest.split(/[.;\n|]+/).map(s=>s.trim().replace(/^(?:donc|or|et|mais|alors)\s+/,"")).filter(s=>s&&!/\?$/.test(s)&&!/^(?:que |qu'|quelle|que peut)/.test(s)).map(lit);
+ if(!facts.length)return null;
+ const known=new Map(facts.map(f=>[key(f),f])),steps=[],derived=[];
+ let changed=true,it=0;
+ while(changed&&it++<12){changed=false;
+  for(const r of rules){
+   if(known.has(key(r.a))&&!known.has(key(r.b))){known.set(key(r.b),r.b);derived.push(r.b);steps.push("**Modus ponens** — « si "+r.txt[0]+" alors "+r.txt[1]+" » et « "+r.txt[0]+" » est établi ⇒ « "+r.txt[1]+" ».");changed=true}
+   if(known.has(key(flip(r.b)))&&!known.has(key(flip(r.a)))){known.set(key(flip(r.a)),flip(r.a));derived.push(flip(r.a));steps.push("**Modus tollens** — « si "+r.txt[0]+" alors "+r.txt[1]+" » et le contraire de « "+r.txt[1]+" » est établi ⇒ le contraire de « "+r.txt[0]+" ».");changed=true}}}
+ const L=l=>(l.n?"non ":"")+"« "+l.c+" »";
+ if(derived.length){const last=derived[derived.length-1];
+  return{intent:"conditional",certain:true,answer:"**Conclusion : "+L(last)+".**",steps:["Règle(s) : "+rules.map(r=>"si "+r.txt[0]+" alors "+r.txt[1]).join(" ; "),"Fait(s) donné(s) : "+facts.map(L).join(", ")].concat(steps),check:"La conclusion découle de manière valide des prémisses (aucune étape non justifiée) ✓."}}
+ const f=facts[0],r=rules[0];let why="";
+ if(f.c===r.b.c&&f.n===r.b.n)why="**Affirmation du conséquent** : savoir que « "+r.txt[1]+" » ne prouve pas « "+r.txt[0]+" » — d'autres causes peuvent produire le même effet.";
+ else if(f.c===r.a.c&&f.n!==r.a.n)why="**Négation de l'antécédent** : « "+r.txt[0]+" » étant faux, la règle ne dit plus rien sur « "+r.txt[1]+" ».";
+ else why="Les faits donnés ne correspondent ni à la condition ni à la conséquence de la règle.";
+ return{intent:"conditional",certain:true,answer:"**On ne peut rien conclure de certain.**",steps:["Règle : si "+r.txt[0]+" alors "+r.txt[1],"Fait : "+L(f),why],alt:"Seules deux déductions sont valides : modus ponens (A, donc B) et modus tollens (non B, donc non A)."};
+}
+
+/* 4c. Syllogismes (tous / aucun / certains) */
+function hSyllogism(raw){
+ const t=norm(raw).replace(/\?/g,"?.");
+ if(!/\b(tous|toutes|aucun|aucune|certains|certaines|quelques)\b/.test(t))return null;
+ if(!/\?/.test(t))return null;
+ const A="(?:(?:une|un|le|la)\\s+|l'|des\\s+|les\\s+)?";
+ const T=s=>{s=s.replace(/^(?:les?|la|l'|une?|des|du|de la|de l'|d')\s*/,"").replace(/\s+/g," ").trim();return s.replace(/aux$/,"al").replace(/([^s])s$/,"$1").replace(/(.{3,})e$/,"$1")};
+ const disp={};const K=s=>{const k=T(s);if(!disp[k])disp[k]=s.replace(/^(?:les?|la|l'|une?|des)\s+/,"").replace(/s$/,"");return k};
+ const D=k=>disp[k]||k;
+ const allE=[],none=[],some=[],mem=[],nmem=[],qs=[];
+ const sents=t.split(/[.;\n]+/).map(s=>s.trim()).filter(Boolean);
+ const rx=(p)=>new RegExp("^"+p+"$");
+ const parse=(s,isQ)=>{let m;s=s.replace(/^(?:donc|alors|or|et|mais|comme|peut-on conclure que|doit-on conclure que|est-ce que|est ce que)\s+/,"").replace(/\?$/,"").trim();
+  if((m=s.match(rx("(?:tous|toutes)\\s+(?:les\\s+|des\\s+)?(.+?)\\s+(?:sont|est)-(?:ils|elles|il|elle)\\s+"+A+"(.+?)"))))return{k:"qall",a:K(m[1]),b:K(m[2])};
+  if((m=s.match(rx("(?:certains|certaines|quelques)\\s+(?:des\\s+|les\\s+)?(.+?)\\s+(?:sont|est)-(?:ils|elles|il|elle)\\s+"+A+"(.+?)"))))return{k:"qsome",a:K(m[1]),b:K(m[2])};
+  if((m=s.match(rx("(.+?)\\s+(?:est|sont)-(?:il|elle|ils|elles)\\s+"+A+"(.+?)"))))return{k:"qmem",a:K(m[1]),b:K(m[2])};
+  if((m=s.match(rx("(?:tous|toutes)\\s+(?:les\\s+|des\\s+)?(.+?)\\s+(?:sont|est)\\s+"+A+"(.+?)"))))return{k:isQ?"qall":"all",a:K(m[1]),b:K(m[2])};
+  if((m=s.match(rx("(?:aucun|aucune)\\s+(?:des\\s+|les\\s+)?(.+?)\\s+n'?\\s*(?:est|sont)\\s+(?:pas\\s+)?"+A+"(.+?)"))))return{k:isQ?"qnone":"none",a:K(m[1]),b:K(m[2])};
+  if((m=s.match(rx("(?:certains|certaines|quelques)\\s+(?:des\\s+|les\\s+)?(.+?)\\s+(?:sont|est)\\s+"+A+"(.+?)"))))return{k:isQ?"qsome":"some",a:K(m[1]),b:K(m[2])};
+  if((m=s.match(rx("(.+?)\\s+n'?\\s*(?:est|sont)\\s+pas\\s+"+A+"(.+?)"))))return{k:"nmem",a:K(m[1]),b:K(m[2]),raw:m[1]};
+  if((m=s.match(rx("(.+?)\\s+(?:est|sont)\\s+"+A+"(.+?)")))){if(/^(?:les|des)\s/.test(m[1]))return{k:isQ?"qall":"all",a:K(m[1]),b:K(m[2])};return{k:isQ?"qmem":"mem",a:K(m[1]),b:K(m[2])}}
+  return null};
+ sents.forEach(s=>{const isQ=/\?$/.test(s)||/^(?:est-ce|est ce)/.test(s)||/-(?:il|elle|ils|elles)\b/.test(s);const p=parse(s,isQ);if(!p)return;
+  if(p.k==="all")allE.push(p);else if(p.k==="none")none.push(p);else if(p.k==="some")some.push(p);else if(p.k==="mem")mem.push(p);else if(p.k==="nmem")nmem.push(p);else qs.push(p)});
+ if(!qs.length||!(allE.length||none.length||some.length||mem.length||nmem.length))return null;
+ const path=(a,b)=>{if(a===b)return[a];const prev={[a]:null},q=[a];while(q.length){const c=q.shift();for(const e of allE)if(e.a===c&&!(e.b in prev)){prev[e.b]=c;if(e.b===b){const p=[b];let x=c;while(x!==null){p.unshift(x);x=prev[x]}return p}q.push(e.b)}}return null};
+ const q=qs[0];let verdict=null,steps=[],extra="";
+ const chain=p=>p.slice(0,-1).map((c,i)=>"tout "+D(c)+" est "+D(p[i+1])).join(" ; ");
+ const noneRel=(x,y)=>{for(const n of none){for(const [u,v] of [[n.a,n.b],[n.b,n.a]]){const p1=path(x,u),p2=path(y,v);if(p1&&p2)return{n,p1,p2}}}return null};
+ if(q.k==="qmem"){
+  const cls=mem.filter(e=>e.a===q.a).map(e=>e.b);
+  const isIndiv=cls.length>0||nmem.some(e=>e.a===q.a);
+  if(!isIndiv){const p=path(q.a,q.b);if(p){verdict=true;steps=["Aucun individu nommé : je traite la question comme une inclusion de classes.",chain(p)]}else{const r=noneRel(q.a,q.b);if(r){verdict=false;steps=["Aucun "+D(r.n.a)+" n'est "+D(r.n.b)+"."]}}}
+  else{
+   for(const c of cls){const p=path(c,q.b);if(p){verdict=true;steps=[D(q.a)+" est "+D(c)+(p.length>1?" ; "+chain(p):""),"Donc "+D(q.a)+" est "+D(q.b)];break}}
+   if(verdict===null){for(const c of cls){const r=noneRel(c,q.b);if(r){verdict=false;steps=[D(q.a)+" est "+D(c)+"; or aucun "+D(r.n.a)+" n'est "+D(r.n.b)+" ⇒ "+D(q.a)+" n'est pas "+D(q.b)];break}}}
+   if(verdict===null){for(const e of nmem){if(e.a===q.a&&path(q.b,e.b)){verdict=false;steps=[D(q.a)+" n'est pas "+D(e.b)+", et tout "+D(q.b)+" est "+D(e.b)+" ⇒ "+D(q.a)+" n'est pas "+D(q.b)];break}}}
+   if(verdict===null){steps=["Les prémisses relient "+D(q.a)+" à : "+(cls.map(D).join(", ")||"rien")+", mais aucun chemin logique n'atteint « "+D(q.b)+" »."];
+    if(cls.some(c=>path(q.b,c)))extra="⚠ Piège classique : tout "+D(q.b)+" est bien "+D(cls.find(c=>path(q.b,c)))+", mais l'inverse n'est pas garanti (erreur de réciproque)."}
+  }}
+ else if(q.k==="qall"){const p=path(q.a,q.b);if(p){verdict=true;steps=[chain(p)||"Même classe."]}else{const r=noneRel(q.a,q.b);if(r){verdict=false;steps=["Aucun "+D(r.n.a)+" n'est "+D(r.n.b)+" : l'affirmation est donc fausse (si "+D(q.a)+" n'est pas vide)."]}else{steps=["Aucune chaîne de « tous… sont… » ne relie "+D(q.a)+" à "+D(q.b)+"."];if(path(q.b,q.a))extra="⚠ La réciproque est vraie ("+D(q.b)+" ⊂ "+D(q.a)+") mais pas la proposition posée."}}}
+ else if(q.k==="qsome"){const direct=some.some(s=>(s.a===q.a&&s.b===q.b)||(s.a===q.b&&s.b===q.a));const p=path(q.a,q.b);
+  if(direct||p){verdict=true;steps=[direct?"Une prémisse l'affirme directement.":"Si tous les "+D(q.a)+" sont "+D(q.b)+" (et qu'il en existe), alors certains le sont."]}
+  else if(noneRel(q.a,q.b)){verdict=false;steps=["Une prémisse dit qu'aucun ne l'est."]}else steps=["Rien dans les prémisses ne permet d'affirmer ni d'exclure cela."]}
+ else if(q.k==="qnone"){const r=noneRel(q.a,q.b);if(r){verdict=true;steps=["Aucun "+D(r.n.a)+" n'est "+D(r.n.b)+"."]}else steps=["Aucune prémisse n'exclut le recouvrement."]}
+ const ans=verdict===true?"**Oui, c'est démontré.**":verdict===false?"**Non, c'est exclu par les prémisses.**":"**On ne peut pas conclure** avec ces seules prémisses.";
+ return{intent:"syllogism",certain:true,answer:ans,steps:["Prémisses retenues : "+[].concat(allE.map(e=>"tout "+D(e.a)+" est "+D(e.b)),none.map(e=>"aucun "+D(e.a)+" n'est "+D(e.b)),some.map(e=>"certains "+D(e.a)+" sont "+D(e.b)),mem.map(e=>D(e.a)+" est "+D(e.b)),nmem.map(e=>D(e.a)+" n'est pas "+D(e.b))).join(" ; ")].concat(steps),check:verdict===null?"Aucune déduction valide n'existe : une conclusion serait une supposition.":"Chaque étape applique une règle valide (inclusion transitive ou exclusion) ✓.",alt:extra};
+}
+
+/* Problèmes en mots (heuristique transparente) */
+function hWord(raw){
+ const t=norm(raw).replace(/(\d),(\d)/g,"$1.$2"),a=nums(t);
+ if(a.length<2||!/combien|quel(?:le)? est le (?:total|nombre|reste)|il reste|il me reste/.test(t))return null;
+ const sum=/en tout|au total|ensemble|total|additionne|reunis/.test(t),sub=/reste|enleve|retire|donne|perd|mange|utilise|vend|depense|casse|part/.test(t),div=/partage|reparti|egalement|equitablement|chacun|chaque personne|par personne/.test(t),mul=/chaque|par (?:jour|semaine|mois|boite|paquet|sac|heure)|fois|paquets? de|boites? de|rangees? de/.test(t);
+ let op,r,expl;
+ if(div&&a.length===2&&a[1]!==0){op="÷";r=a[0]/a[1];expl="partage en parts égales"}
+ else if(sub&&!sum){op="−";r=a.slice(1).reduce((x,y)=>x-y,a[0]);expl="on retire les quantités suivantes de la quantité de départ"}
+ else if(mul&&!sum&&a.length===2){op="×";r=a[0]*a[1];expl="quantité répétée"}
+ else if(sum||!sub){op="+";r=a.reduce((x,y)=>x+y,0);expl="on regroupe les quantités"}
+ else return null;
+ ANS=r;
+ return{intent:"word",certain:true,answer:"**Résultat : "+fmt(r)+"**",steps:["Nombres identifiés : "+a.map(fmt).join(", "),"Je comprends l'énoncé comme : "+expl+" (opération "+op+").","Calcul : "+a.map(fmt).join(" "+op+" ")+" = "+fmt(r)],check:"Vérifie que cette lecture de l'énoncé correspond à ton problème ; sinon reformule ou précise l'opération.",alt:""};
+}
+
+/* ---------- 5. Mode code ---------- */
+function detectLang(s,hint){
+ if(/\bpython\b|\bpy\b/.test(hint))return"py";if(/javascript|\bjs\b|node/.test(hint))return"js";
+ const py=(s.match(/^\s*(def |import |from \w+ import|class \w+.*:|elif |print\()/gm)||[]).length+(/:\s*$/m.test(s)?1:0);
+ const js=(s.match(/\b(const|let|var|function|=>|console\.|===)/g)||[]).length;
+ return py>js?"py":js>0?"js":null}
+function lint(code,lang){
+ const out=[];let line=1,q=null,qs=1;const st=[];const pairs={")":"(","]":"[","}":"{"};
+ for(let i=0;i<code.length;i++){const c=code[i],n=code[i+1];
+  if(c==="\n"){line++;if(q&&q!=="`"&&q.length===1){out.push({l:qs,m:"chaîne non terminée (guillemet "+q+" jamais refermé)"});q=null}continue}
+  if(q){if(c==="\\"){i++;continue}if(code.startsWith(q,i)){i+=q.length-1;q=null}continue}
+  if(lang==="py"&&c==="#"){while(i+1<code.length&&code[i+1]!=="\n")i++;continue}
+  if(lang!=="py"&&c==="/"&&n==="/"){while(i+1<code.length&&code[i+1]!=="\n")i++;continue}
+  if(lang!=="py"&&c==="/"&&n==="*"){const e=code.indexOf("*/",i+2);const seg=code.slice(i,e<0?code.length:e);line+=(seg.match(/\n/g)||[]).length;i=e<0?code.length:e+1;continue}
+  if(lang==="py"&&(code.startsWith('"""',i)||code.startsWith("'''",i))){q=code.slice(i,i+3);qs=line;i+=2;continue}
+  if(c==='"'||c==="'"||c==="`"){q=c;qs=line;continue}
+  if("([{".includes(c))st.push({c,l:line});
+  else if(")]}".includes(c)){const o=st.pop();if(!o)out.push({l:line,m:"« "+c+" » sans ouvrant correspondant"});else if(o.c!==pairs[c])out.push({l:line,m:"« "+c+" » ferme « "+o.c+" » ouvert ligne "+o.l})}}
+ st.forEach(o=>out.push({l:o.l,m:"« "+o.c+" » jamais refermé"}));
+ const lines=code.split("\n");
+ lines.forEach((s,i)=>{const L=i+1;
+  if(lang==="js"||lang==="java"){
+   if(/[^=!<>]==[^=]/.test(s)&&!/^\s*\/\//.test(s))out.push({l:L,m:"comparaison lâche « == » : préfère « === » (évite les conversions de type surprenantes)"});
+   if(/\bif\s*\([^=!<>)]*[^=!<>]=[^=>][^)]*\)/.test(s))out.push({l:L,m:"affectation « = » dans un « if » : voulais-tu « === » ?"});
+   if(/<=\s*\w+\.length/.test(s)&&/for\s*\(/.test(s))out.push({l:L,m:"boucle « <= length » : décalage d'un cran probable (off-by-one), utilise « < length »"});
+   if(/\bvar\s/.test(s))out.push({l:L,m:"« var » a une portée de fonction : préfère « let » / « const »"});
+   if(/while\s*\(\s*true\s*\)/.test(s)&&!/break|return/.test(code))out.push({l:L,m:"« while(true) » sans « break » ni « return » : boucle infinie probable"});
+   if(/console\.log/.test(s))out.push({l:L,m:"« console.log » : à retirer avant la mise en production",s:"info"})}
+  if(lang==="py"){
+   if(/^\s*(?:if|elif|while)\s+[^=!<>()]*[^=!<>]=[^=][^:]*:/.test(s))out.push({l:L,m:"affectation « = » dans une condition : voulais-tu « == » ?"});
+   if(/def\s+\w+\([^)]*=\s*(\[\]|\{\})/.test(s))out.push({l:L,m:"argument par défaut mutable ([] ou {}) : il est partagé entre les appels, utilise None"});
+   if(/^\s*except\s*:/.test(s))out.push({l:L,m:"« except: » nu : attrape aussi KeyboardInterrupt ; précise l'exception"});
+   if(/[!=]=\s*None/.test(s))out.push({l:L,m:"compare à None avec « is None » / « is not None »"});
+   if(/^\s*print\s+[^(\s=]/.test(s))out.push({l:L,m:"« print » sans parenthèses : syntaxe Python 2"});
+   if(/^\s*(?:def|class|if|elif|else|for|while|try|except|finally|with)\b[^#]*[^:,\s(\[{\\]\s*(?:#.*)?$/.test(s)&&!/[([{]\s*$/.test(s)&&(s.match(/[(\[{]/g)||[]).length===(s.match(/[)\]}]/g)||[]).length)out.push({l:L,m:"il manque probablement « : » en fin de ligne"})}
+ });
+ const seen=new Set();return out.filter(o=>{const k=o.l+o.m;if(seen.has(k))return false;seen.add(k);return true}).sort((a,b)=>a.l-b.l);
+}
+function structure(code,lang){
+ const fn=[...(code.matchAll(lang==="py"?/def\s+(\w+)\s*\(/g:/(?:function\s+(\w+)|(?:const|let|var)\s+(\w+)\s*=\s*(?:async\s*)?(?:\([^)]*\)|\w+)\s*=>)/g))].map(m=>m[1]||m[2]);
+ const c=re=>(code.match(re)||[]).length;
+ return{fn,loops:c(/\b(for|while)\b/g),ifs:c(/\b(if|elif|else if)\b/g),ret:c(/\breturn\b/g),imports:c(/\b(import|require|from \w+ import)\b/g),lines:code.split("\n").length};
+}
+const TASKS=[
+ {k:/palindrom/,n:"estPalindrome",d:"teste si un texte se lit pareil dans les deux sens",
+  js:["function estPalindrome(texte){","  const s = texte.toLowerCase().normalize(\"NFD\").replace(/[\\u0300-\\u036f]/g, \"\").replace(/[^a-z0-9]/g, \"\");","  return s === [...s].reverse().join(\"\");","}","","console.log(estPalindrome(\"Esope reste ici et se repose\")); // true","console.log(estPalindrome(\"bonjour\")); // false"],
+  py:["import unicodedata","","def est_palindrome(texte):","    s = unicodedata.normalize(\"NFD\", texte.lower())","    s = \"\".join(c for c in s if c.isalnum() and ord(c) < 128)","    return s == s[::-1]","","print(est_palindrome(\"Esope reste ici et se repose\"))  # True"],
+  cas:"casse, accents, espaces et ponctuation ignorés ; chaîne vide = palindrome",cx:"O(n) en temps, O(n) en mémoire"},
+ {k:/factoriel/,n:"factorielle",d:"calcule n!",
+  js:["function factorielle(n){","  if (!Number.isInteger(n) || n < 0) throw new RangeError(\"n doit être un entier >= 0\");","  let r = 1n;","  for (let i = 2n; i <= BigInt(n); i++) r *= i;","  return r;","}","","console.log(factorielle(5));  // 120n","console.log(factorielle(0));  // 1n"],
+  py:["def factorielle(n):","    if not isinstance(n, int) or n < 0:","        raise ValueError(\"n doit être un entier >= 0\")","    r = 1","    for i in range(2, n + 1):","        r *= i","    return r","","print(factorielle(5))  # 120"],
+  cas:"0! = 1 ; refus des négatifs et des non-entiers ; BigInt évite le dépassement en JavaScript",cx:"O(n) multiplications"},
+ {k:/fibonacci/,n:"fibonacci",d:"renvoie le n-ième terme de Fibonacci",
+  js:["function fibonacci(n){","  if (!Number.isInteger(n) || n < 0) throw new RangeError(\"n doit être un entier >= 0\");","  let a = 0n, b = 1n;","  for (let i = 0; i < n; i++) [a, b] = [b, a + b];","  return a;","}","","console.log(fibonacci(10)); // 55n"],
+  py:["def fibonacci(n):","    if not isinstance(n, int) or n < 0:","        raise ValueError(\"n doit être un entier >= 0\")","    a, b = 0, 1","    for _ in range(n):","        a, b = b, a + b","    return a","","print(fibonacci(10))  # 55"],
+  cas:"F(0)=0, F(1)=1 ; version itérative : pas de dépassement de pile, contrairement à la récursion naïve en O(2^n)",cx:"O(n) en temps, O(1) en mémoire"},
+ {k:/premier|primalite/,n:"estPremier",d:"teste si un entier est premier",
+  js:["function estPremier(n){","  if (!Number.isInteger(n) || n < 2) return false;","  if (n % 2 === 0) return n === 2;","  for (let i = 3; i * i <= n; i += 2) {","    if (n % i === 0) return false;","  }","  return true;","}","","console.log(estPremier(17)); // true","console.log(estPremier(18)); // false"],
+  py:["def est_premier(n):","    if not isinstance(n, int) or n < 2:","        return False","    if n % 2 == 0:","        return n == 2","    i = 3","    while i * i <= n:","        if n % i == 0:","            return False","        i += 2","    return True","","print(est_premier(17))  # True"],
+  cas:"0, 1 et négatifs ne sont pas premiers ; 2 est le seul premier pair ; on s'arrête à √n",cx:"O(√n)"},
+ {k:/fizz ?buzz/,n:"fizzBuzz",d:"affiche 1..n en remplaçant les multiples de 3 / 5",
+  js:["function fizzBuzz(n){","  for (let i = 1; i <= n; i++) {","    let s = \"\";","    if (i % 3 === 0) s += \"Fizz\";","    if (i % 5 === 0) s += \"Buzz\";","    console.log(s || i);","  }","}","","fizzBuzz(15);"],
+  py:["def fizz_buzz(n):","    for i in range(1, n + 1):","        s = (\"Fizz\" if i % 3 == 0 else \"\") + (\"Buzz\" if i % 5 == 0 else \"\")","        print(s or i)","","fizz_buzz(15)"],
+  cas:"les multiples de 15 doivent afficher « FizzBuzz » : la concaténation le gère sans test supplémentaire",cx:"O(n)"},
+ {k:/pgcd|plus grand commun diviseur/,n:"pgcd",d:"calcule le PGCD de deux entiers (Euclide)",
+  js:["function pgcd(a, b){","  a = Math.abs(a); b = Math.abs(b);","  while (b !== 0) [a, b] = [b, a % b];","  return a;","}","","console.log(pgcd(48, 18)); // 6"],
+  py:["def pgcd(a, b):","    a, b = abs(a), abs(b)","    while b:","        a, b = b, a % b","    return a","","print(pgcd(48, 18))  # 6"],
+  cas:"nombres négatifs gérés par abs ; pgcd(a, 0) = a",cx:"O(log min(a, b))"},
+ {k:/inverse|renverse|reverse/,n:"inverser",d:"inverse une chaîne de caractères",
+  js:["function inverser(texte){","  return [...texte].reverse().join(\"\");","}","","console.log(inverser(\"bonjour\")); // \"ruojnob\""],
+  py:["def inverser(texte):","    return texte[::-1]","","print(inverser(\"bonjour\"))  # ruojnob"],
+  cas:"l'étalement [...texte] respecte les caractères Unicode hors BMP (emojis)",cx:"O(n)"},
+ {k:/voyelle/,n:"compterVoyelles",d:"compte les voyelles d'un texte",
+  js:["function compterVoyelles(texte){","  const m = texte.toLowerCase().normalize(\"NFD\").replace(/[\\u0300-\\u036f]/g, \"\").match(/[aeiouy]/g);","  return m ? m.length : 0;","}","","console.log(compterVoyelles(\"Éléphant\")); // 3"],
+  py:["import unicodedata","","def compter_voyelles(texte):","    s = unicodedata.normalize(\"NFD\", texte.lower())","    return sum(1 for c in s if c in \"aeiouy\")","","print(compter_voyelles(\"Éléphant\"))  # 3"],
+  cas:"les accents sont retirés avant le comptage ; chaîne vide → 0",cx:"O(n)"},
+ {k:/doublon|unique|sans repetition|dedoublon/,n:"dedoublonner",d:"supprime les doublons en gardant l'ordre",
+  js:["function dedoublonner(liste){","  return [...new Set(liste)];","}","","console.log(dedoublonner([3, 1, 3, 2, 1])); // [3, 1, 2]"],
+  py:["def dedoublonner(liste):","    return list(dict.fromkeys(liste))","","print(dedoublonner([3, 1, 3, 2, 1]))  # [3, 1, 2]"],
+  cas:"l'ordre de première apparition est conservé ; les éléments doivent être hashables en Python",cx:"O(n)"},
+ {k:/anagramme/,n:"sontAnagrammes",d:"teste si deux mots sont des anagrammes",
+  js:["function sontAnagrammes(a, b){","  const f = s => [...s.toLowerCase().normalize(\"NFD\").replace(/[\\u0300-\\u036f\\s]/g, \"\")].sort().join(\"\");","  return f(a) === f(b);","}","","console.log(sontAnagrammes(\"niche\", \"chien\")); // true"],
+  py:["import unicodedata","","def sont_anagrammes(a, b):","    f = lambda s: sorted(c for c in unicodedata.normalize(\"NFD\", s.lower()) if c.isalpha() and ord(c) < 128)","    return f(a) == f(b)","","print(sont_anagrammes(\"niche\", \"chien\"))  # True"],
+  cas:"casse, accents et espaces ignorés",cx:"O(n log n)"},
+ {k:/compte.*mots|nombre de mots|word ?count|frequence/,n:"compterMots",d:"compte les occurrences de chaque mot",
+  js:["function compterMots(texte){","  const mots = texte.toLowerCase().match(/\\p{L}+/gu) || [];","  const freq = {};","  for (const m of mots) freq[m] = (freq[m] || 0) + 1;","  return freq;","}","","console.log(compterMots(\"Le chat et le chien\")); // { le: 2, chat: 1, et: 1, chien: 1 }"],
+  py:["import re","from collections import Counter","","def compter_mots(texte):","    return Counter(re.findall(r\"\\w+\", texte.lower()))","","print(compter_mots(\"Le chat et le chien\"))"],
+  cas:"ponctuation ignorée ; accents conservés ; texte vide → objet vide",cx:"O(n)"},
+ {k:/tri(?:e|er|s)?\b|trier|sort/,n:"trier",d:"trie une liste de nombres sans modifier l'original",
+  js:["function trier(liste, ordre = \"asc\"){","  const copie = [...liste];","  return copie.sort((a, b) => ordre === \"asc\" ? a - b : b - a);","}","","console.log(trier([5, 1, 10, 2]));        // [1, 2, 5, 10]","console.log(trier([5, 1, 10, 2], \"desc\")); // [10, 5, 2, 1]"],
+  py:["def trier(liste, ordre=\"asc\"):","    return sorted(liste, reverse=(ordre == \"desc\"))","","print(trier([5, 1, 10, 2]))  # [1, 2, 5, 10]"],
+  cas:"sans comparateur, JS trie par ordre alphabétique (10 < 2) : le comparateur numérique est indispensable ; copie pour ne pas muter l'entrée",cx:"O(n log n)"},
+ {k:/somme|additionne.*liste|total.*liste/,n:"somme",d:"additionne les éléments d'une liste",
+  js:["function somme(liste){","  return liste.reduce((acc, x) => acc + x, 0);","}","","console.log(somme([1, 2, 3, 4])); // 10","console.log(somme([]));           // 0"],
+  py:["def somme(liste):","    return sum(liste)","","print(somme([1, 2, 3, 4]))  # 10"],
+  cas:"liste vide → 0 (valeur initiale du reduce)",cx:"O(n)"},
+ {k:/maximum|plus grand|max\b/,n:"maximum",d:"trouve le plus grand élément d'une liste",
+  js:["function maximum(liste){","  if (liste.length === 0) throw new Error(\"liste vide\");","  return liste.reduce((m, x) => (x > m ? x : m));","}","","console.log(maximum([3, 9, 2])); // 9"],
+  py:["def maximum(liste):","    if not liste:","        raise ValueError(\"liste vide\")","    return max(liste)","","print(maximum([3, 9, 2]))  # 9"],
+  cas:"liste vide signalée explicitement plutôt que de renvoyer -Infinity",cx:"O(n)"}
+];
+function hCode(raw,ctx){
+ const t=norm(raw);
+ const fence=raw.match(/```(\w*)\n?([\s\S]*?)```/);
+ let code=fence?fence[2]:null;
+ if(!code&&raw.split("\n").length>=3&&/[{};]|=>|\bdef\b|\bfunction\b|\bconst\b|\bimport\b/.test(raw)){const idx=raw.indexOf("\n");code=raw.slice(idx+1)}
+ const wantExplain=/explique|comment (?:ca )?marche|que fait|analyse/.test(t),wantFix=/corrige|bug|erreur|debug|repare|fix|pourquoi.*(?:marche pas|plante)|ne marche pas/.test(t),wantTest=/test/.test(t);
+ if(code&&code.trim().length>8){
+  const lang=(fence&&/^(py|python)$/i.test(fence[1])?"py":fence&&/^(js|javascript|ts|typescript)$/i.test(fence[1])?"js":null)||detectLang(code,t)||"js";
+  const L=lint(code,lang),S=structure(code,lang),warn=L.filter(x=>x.s!=="info"),info=L.filter(x=>x.s==="info");
+  const name={py:"Python",js:"JavaScript"}[lang];
+  const rep=(warn.length?warn.map(x=>"- **Ligne "+x.l+"** — "+x.m).join("\n"):"- Aucun défaut évident repéré par l'analyse statique.")+(info.length?"\n"+info.map(x=>"- *Ligne "+x.l+"* — "+x.m).join("\n"):"");
+  const struct="Langage : "+name+" · "+S.lines+" lignes · "+(S.fn.length?"fonctions : "+S.fn.map(f=>"`"+f+"`").join(", "):"aucune fonction nommée")+" · "+S.loops+" boucle(s) · "+S.ifs+" condition(s) · "+S.ret+" `return`.";
+  const tests=wantTest?"\n\n**Cas de test à écrire**\n- Entrée nominale (cas typique)\n- Entrée vide / `null` / `0`\n- Valeurs limites (premier et dernier élément, très grande valeur)\n- Entrée invalide (mauvais type) : l'erreur est-elle claire ?\n- Cas qui a causé ton bug, pour éviter la régression":"";
+  return{intent:"code-review",certain:false,hints:warn.map(x=>"L"+x.l+": "+x.m),
+   answer:"**Analyse du code**\n"+struct+"\n\n"+rep+tests,
+   steps:["Lecture structurelle : fonctions, boucles, conditions, retours.","Équilibre des parenthèses, crochets, accolades et guillemets (en ignorant chaînes et commentaires).","Recherche des erreurs classiques du langage : "+(lang==="py"?"« : » manquant, argument par défaut mutable, « = » au lieu de « == », except nu":"« == » vs « === », « = » dans un if, off-by-one, var, boucle infinie")+"."],
+   check:"Analyse statique heuristique : elle ne remplace pas l'exécution des tests. "+(warn.length?warn.length+" point(s) à examiner.":"Rien d'évident, mais la logique métier n'est pas vérifiée."),
+   alt:wantExplain||wantFix?"Pour une correction ciblée, indique le comportement attendu et le comportement observé (message d'erreur exact, entrée, sortie).":""};
+ }
+ if(/ecris|écris|fonction|programme|code|script|algorithme|implemente|genere/.test(t)||ctx.mode==="codex"){
+  for(const task of TASKS){if(task.k.test(t)){
+   const hint=t,lang=/\bpython\b|\bpy\b/.test(hint)?"py":/javascript|\bjs\b|node/.test(hint)?"js":null;
+   const blocks=lang?[lang]:["js","py"];const label={js:"JavaScript",py:"Python"};
+   const codeMd=blocks.map(b=>(blocks.length>1?"**"+label[b]+"**\n":"")+FENCE+({js:"javascript",py:"python"})[b]+"\n"+task[b].join("\n")+"\n"+FENCE).join("\n\n");
+   return{intent:"code-write",certain:false,answer:"Fonction `"+task.n+"` — "+task.d+" :\n\n"+codeMd,
+    steps:["Spécification : "+task.d+".","Choix de l'algorithme : "+task.cx+".","Cas limites traités : "+task.cas+"."],
+    check:"Exemples exécutables inclus dans le code (valeurs attendues en commentaire). Complexité : "+task.cx+".",
+    alt:lang?"Je peux aussi te la donner en "+(lang==="py"?"JavaScript":"Python")+", ajouter des tests unitaires ou la rendre récursive.":"Précise ton langage (Java, C++, PHP…) et j'adapte."};
+  }}
+ }
+ return null;
+}
+
+/* ---------- 6. Texte : résumé extractif, e-mail, décision ---------- */
+const STOP=new Set("le la les un une des du de d l et ou mais donc or ni car que qui quoi dont ou ce cet cette ces se sa son ses leur leurs mon ma mes ton ta tes notre nos votre vos il elle ils elles on nous vous je tu me te lui y en a au aux par pour sur sous dans avec sans entre vers chez est sont etre ete avoir ai as avons avez ont etait sera plus moins tres aussi comme si ne pas non oui cela ceci ca peut faire fait faut tout tous toute toutes autre autres meme bien deja encore alors apres avant depuis pendant quand lorsque puis ainsi donc".split(" "));
+const words=t=>(norm(t).match(/[a-z0-9']{3,}/g)||[]).filter(w=>!STOP.has(w));
+function hSummary(raw){
+ const m=raw.match(/^\s*(?:r[ée]sume|r[ée]sumez|synth[ée]tise|fais un r[ée]sum[ée])[^\n:]*[:\n]\s*([\s\S]+)$/i);
+ if(!m||m[1].trim().length<220)return null;
+ const text=m[1].trim(),sents=text.split(/(?<=[.!?])\s+/).filter(s=>s.trim().length>25);if(sents.length<4)return null;
+ const freq={};words(text).forEach(w=>freq[w]=(freq[w]||0)+1);
+ const scored=sents.map((s,i)=>{const w=words(s);return{i,s,sc:w.reduce((x,y)=>x+(freq[y]||0),0)/Math.sqrt(w.length||1)+(i===0?1.5:0)}});
+ const k=Math.max(2,Math.min(5,Math.ceil(sents.length/3)));
+ const top=[...scored].sort((a,b)=>b.sc-a.sc).slice(0,k).sort((a,b)=>a.i-b.i);
+ const kw=Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,5).map(e=>e[0]);
+ return{intent:"summary",certain:false,answer:"**Résumé — points clés**\n"+top.map(x=>"- "+x.s.trim()).join("\n")+"\n\n*Thèmes dominants : "+kw.join(", ")+".*",steps:["Découpage en "+sents.length+" phrases.","Score de chaque phrase = fréquence de ses mots significatifs (hors mots vides), avec bonus pour l'ouverture.","Conservation des "+k+" phrases les mieux notées, dans l'ordre d'origine."],check:"Résumé extractif : les phrases sont reprises telles quelles, rien n'est inventé.",alt:"Pour une reformulation plus fluide, le serveur NEXORA fera un résumé abstractif."};
+}
+function hEmail(raw){
+ const t=norm(raw);if(!/e-?mail|courriel|\bmail\b/.test(t)||!/redige|ecris|prepare|genere|compose|brouillon/.test(t))return null;
+ const pour=(raw.match(/\b(?:pour|afin de|concernant|au sujet de)\s+([^.\n]{3,100})/i)||[])[1]||"[objet de ta demande]";
+ return{intent:"email",certain:false,answer:"**Objet :** "+pour.charAt(0).toUpperCase()+pour.slice(1)+"\n\nBonjour [Prénom / Madame, Monsieur],\n\n[Contexte en une phrase : qui tu es, pourquoi tu écris.]\n\n[Demande précise : ce que tu attends, avec les détails utiles.]\n\n[Échéance ou prochaine étape proposée.]\n\nJe reste disponible pour toute précision.\n\nCordialement,\n[Ton prénom et nom]",steps:["Objet clair et court : le lecteur doit comprendre le sujet sans ouvrir le message.","Structure : contexte → demande → échéance → clôture.","Un seul sujet par e-mail ; la demande est placée dans le premier tiers du texte."],check:"Relis : la demande est-elle explicite, datée et réalisable par le destinataire ?",alt:"Donne-moi le destinataire, le ton (formel / cordial) et les faits, et je complète les crochets."};
+}
+function hDecision(raw){
+ const t=norm(raw);if(!/vaut mieux|dois[- ]?je|faut[- ]il|lequel|choisir|ou bien|quel est le mieux|prefer/.test(t))return null;
+ const m=raw.match(/([^?.,:;]{2,60}?)\s+ou\s+(?:bien\s+)?([^?.,:;]{2,60})/i);
+ const A=m?m[1].replace(/^.*\b(?:entre|vaut mieux|dois-je|faut-il|choisir|prendre|acheter)\s+/i,"").trim():"Option A",B=m?m[2].replace(/\?$/,"").trim():"Option B";
+ return{intent:"decision",certain:false,answer:"Je ne peux pas trancher sans tes critères, mais voici une méthode fiable pour décider **« "+A+" » ou « "+B+" »** :\n\n| Critère | Poids (1-5) | "+A+" (0-10) | "+B+" (0-10) |\n|---|---|---|---|\n| Coût total | | | |\n| Qualité / fiabilité | | | |\n| Délai / effort | | | |\n| Risque / réversibilité | | | |\n\nScore = Σ poids × note. Le plus élevé l'emporte, sauf si un critère éliminatoire est violé.",steps:["Définir l'objectif réel (ce qui rendrait la décision « bonne »).","Lister 3 à 5 critères mesurables et leur donner un poids.","Noter chaque option, puis calculer le score pondéré.","Test de robustesse : si on change un poids de ±1, le classement tient-il ?"],check:"Si les scores sont proches (< 10 % d'écart), la décision importe peu : choisis la plus réversible.",alt:"Donne-moi tes contraintes (budget, délai, priorités) et je remplis la grille avec toi."};
+}
+
+/* ---------- 7. Conversation de base ---------- */
+function hChat(raw,ctx){
+ const t=norm(raw),w=t.split(" ").length;
+ if(w<=5&&/^(?:bonjour|salut|coucou|hello|bonsoir|hey|yo)\b/.test(t))return{intent:"chat",certain:true,answer:ctx.mode==="codex"?"Bonjour ! Décris-moi la fonction à écrire, ou colle ton code : je l'analyse, je le corrige et je te le renvoie.":"Bonjour ! Dis-moi ce que tu veux faire : un calcul, une équation, un raisonnement logique, une rédaction… Je réfléchis étape par étape.",steps:[]};
+ if(w<=6&&/^(?:merci|super|parfait|top|ok merci|genial)\b/.test(t))return{intent:"chat",certain:true,answer:"Avec plaisir. Une autre question ?",steps:[]};
+ if(/qui es[- ]tu|tu es qui|comment tu t'appelles|c'est quoi nexora|presente[- ]toi/.test(t))return{intent:"chat",certain:true,answer:"Je suis **NEXORA**, "+(ctx.model?"modèle actif : "+ctx.model+". ":"")+"Je raisonne avec un moteur de logique : je classe ta demande, la décompose, la résout (calcul exact, équations, suites, syllogismes, tables de vérité, dates, conversions, code) et je vérifie le résultat avant de répondre.",steps:[]};
+ if(/que sais[- ]tu faire|tu peux faire quoi|aide|help|capacites/.test(t)&&w<=8)return{intent:"chat",certain:true,answer:"**Ce que je résous avec certitude**\n- Calculs, pourcentages, puissances, factorielles\n- Équations (degré 1, 2 ou numériques)\n- Suites logiques, statistiques, PGCD / PPCM / nombres premiers\n- Syllogismes (« tous… », « aucun… ») et « si… alors… »\n- Tables de vérité (`p et non q`, `p -> q`)\n- Dates, durées, conversions d'unités\n- Code : analyse de bugs, fonctions classiques\n\nLe niveau d'effort règle le détail : *Léger* = réponse seule ; *Standard* = + raisonnement ; *Approfondi* = + vérification ; *Maximal* = + pistes.",steps:[]};
+ return null;
+}
+
+/* ---------- 8. Cadrage d'une demande ouverte (repli) ---------- */
+function hFrame(raw,ctx){
+ const t=norm(raw);
+ const type=/^(?:pourquoi|comment|explique|qu'est-ce|c'est quoi|definis|quelle est la difference)/.test(t)?"demande d'explication":/^(?:quel|quelle|quels|quelles|qui|quand|ou|combien)\b/.test(t)?"question factuelle":/redige|ecris|ecrire|genere|cree|compose|prepare|imagine/.test(t)?"production de contenu":/resume|synthetise|reformule|traduis|corrige|ameliore/.test(t)?"transformation d'un texte":/compare|difference|versus|\bvs\b/.test(t)?"comparaison":"échange ouvert";
+ const freq={};words(raw).forEach(w=>freq[w]=(freq[w]||0)+1);
+ const kw=Object.entries(freq).sort((a,b)=>b[1]-a[1]||b[0].length-a[0].length).slice(0,5).map(e=>e[0]);
+ const cons=[];const nb=nums(t);if(nb.length)cons.push("valeurs : "+nb.slice(0,5).map(fmt).join(", "));
+ const mm=t.match(/(\d+)\s*(mots|lignes|points|phrases|minutes|pages)/);if(mm)cons.push("longueur : "+mm[1]+" "+mm[2]);
+ if(/formel|professionnel/.test(t))cons.push("ton formel");else if(/cordial|amical|decontracte/.test(t))cons.push("ton chaleureux");
+ if(/court|bref|concis/.test(t))cons.push("réponse brève");if(/detail|complet|approfondi/.test(t))cons.push("réponse détaillée");
+ const plans={"demande d'explication":["Définir les termes clés","Donner le mécanisme principal en 2-3 étapes","Illustrer par un exemple concret","Signaler les limites ou exceptions"],"question factuelle":["Identifier précisément ce qui est demandé","Chercher la source fiable","Répondre en une phrase, puis nuancer"],"production de contenu":["Fixer le public, le ton et le format","Construire un plan (accroche, développement, conclusion)","Rédiger puis relire contre les contraintes"],"transformation d'un texte":["Identifier l'intention du texte d'origine","Appliquer la transformation demandée","Comparer avec l'original pour ne rien perdre"],"comparaison":["Choisir 3 à 5 critères","Évaluer chaque option par critère","Conclure selon la priorité de l'utilisateur"],"échange ouvert":["Clarifier l'objectif","Proposer une réponse courte","Approfondir selon la réaction"]};
+ const missing=type==="production de contenu"?"À qui s'adresse le texte, et dans quel ton ?":type==="comparaison"?"Quel critère compte le plus pour toi ?":"Peux-tu préciser le résultat attendu (format, longueur, niveau de détail) ?";
+ return{intent:"frame",certain:false,answer:"**Analyse de ta demande**\n- **Type :** "+type+"\n- **Sujets clés :** "+(kw.join(", ")||"—")+"\n- **Contraintes :** "+(cons.join(" ; ")||"aucune détectée")+"\n\n**Plan de réponse**\n"+plans[type].map((s,i)=>(i+1)+". "+s).join("\n")+"\n\n**Pour affiner :** "+missing,steps:["Normalisation du texte et classement par type de demande.","Extraction des mots-clés, nombres et contraintes de forme.","Sélection du plan de réponse adapté au type."],check:"Je ne dispose pas ici de connaissances encyclopédiques : pour du contenu factuel ou rédactionnel complet, la réponse vient du serveur NEXORA.",alt:""};
+}
+
+/* ---------- 9. Orchestrateur ---------- */
+const PHR={
+ math:["Lecture de l'expression","Application des priorités","Calcul pas à pas","Vérification croisée"],
+ percent:["Lecture des pourcentages","Choix de la formule","Calcul","Contre-vérification"],
+ equation:["Lecture de l'équation","Mise sous forme standard","Résolution","Substitution de contrôle"],
+ sequence:["Lecture de la suite","Calcul des différences et rapports","Test des règles","Validation sur tous les termes"],
+ stats:["Lecture des données","Tri et calculs","Contrôle de cohérence"],
+ number:["Analyse du nombre","Application de l'algorithme","Contrôle du résultat"],
+ convert:["Identification des unités","Passage par l'unité de base","Conversion"],
+ date:["Lecture du calendrier","Calcul des écarts","Contrôle"],
+ truth:["Extraction des variables","Construction de la table","Évaluation ligne par ligne"],
+ conditional:["Extraction des règles","Chaînage des déductions","Contrôle de validité"],
+ syllogism:["Extraction des prémisses","Recherche d'un chemin logique","Vérification de la conclusion"],
+ word:["Extraction des quantités","Choix de l'opération","Calcul"],
+ "code-review":["Lecture du code","Équilibrage des symboles","Recherche des erreurs classiques","Vérification"],
+ "code-write":["Lecture du besoin","Choix de l'algorithme","Cas limites","Écriture du code"],
+ summary:["Découpage en phrases","Pondération des idées","Sélection"],
+ email:["Choix de la structure","Rédaction","Relecture"],
+ decision:["Définition des critères","Pondération","Test de robustesse"],
+ chat:["Lecture du message"],
+ frame:["Analyse de la demande","Identification des contraintes","Construction du plan","Rédaction"]
+};
+const DEFAULT_PHR={works:["Analyse de la demande","Décomposition du problème","Raisonnement","Vérification"],codex:["Lecture du contexte","Planification","Écriture du code","Vérification"]};
+
+function compose(r,level){
+ let o=r.answer;
+ if(level>=1&&r.steps&&r.steps.length)o+="\n\n**Raisonnement**\n"+r.steps.map((s,i)=>(i+1)+". "+s).join("\n");
+ if(level>=2&&r.check)o+="\n\n**Vérification** — "+r.check;
+ if(level>=3&&r.alt)o+="\n\n**Pour aller plus loin** — "+r.alt;
+ return o;
+}
+function quickIntent(text,ctx){ /* sert à afficher les bonnes phases pendant la réflexion */
+ try{const r=analyze(text,ctx,true);return r.phrases}catch{return DEFAULT_PHR[ctx.mode]||DEFAULT_PHR.works}
+}
+function analyze(text,ctx,dry){
+ ctx=ctx||{};ctx.mode=ctx.mode||"works";ctx.level=Math.max(0,Math.min(3,ctx.level|0));
+ const saveANS=ANS;
+ const order=ctx.mode==="codex"
+  ?[hChat,hCode,hConvert,hDate,hTruth,hConditional,hSyllogism,hSequence,hEquation,hStats,hNumber,hPercent,hMath,hWord,hSummary,hDecision,hEmail]
+  :[hChat,hConvert,hDate,hTruth,hConditional,hSyllogism,hSequence,hEquation,hStats,hNumber,hPercent,hMath,hWord,hSummary,hEmail,hDecision,hCode];
+ let res=null;
+ for(const h of order){try{res=h(text,ctx);}catch(e){res=null}if(res)break}
+ if(!res)res=hFrame(text,ctx);
+ if(dry)ANS=saveANS;
+ return{intent:res.intent,certain:!!res.certain,md:compose(res,ctx.level),hints:res.hints||[],plan:res.steps||[],
+  phrases:PHR[res.intent]||DEFAULT_PHR[ctx.mode]};
+}
+const SYSTEM=[
+ "Tu es NEXORA. Raisonne avant de répondre :",
+ "1) Reformule mentalement la demande et repère le type de problème.",
+ "2) Décompose en étapes et traite-les dans l'ordre ; fais les calculs explicitement.",
+ "3) Vérifie le résultat (second calcul, cas limite, contre-exemple) avant de conclure.",
+ "4) Ne jamais inventer : si une donnée manque ou si une conclusion n'est pas démontrable, dis-le et pose UNE question ciblée.",
+ "5) Réponds dans la langue de l'utilisateur, d'abord la réponse, puis le raisonnement utile — concis, sans remplissage."
+].join("\n");
+function payload(a,ctx){ /* métadonnées de raisonnement jointes à la requête serveur */
+ return{system:SYSTEM,logic:{intent:a.intent,plan:a.plan,hints:a.hints,level:ctx.level,depth:["bref","raisonnement","raisonnement+vérification","raisonnement+vérification+alternatives"][ctx.level|0]}};
+}
+return{analyze,quickIntent,payload,SYSTEM,evalMath,version:"1.0"};
+})();
+</script>
+<script>
+const $=id=>document.getElementById(id);
+const API=window.NEXORA_API_BASE||(()=>{try{return localStorage.getItem("nexora_api_base")}catch{return""}})()||"https://worthy-appreciation-production-2bb7.up.railway.app";
+const store={get(k,d){try{const v=JSON.parse(localStorage.getItem(k));return v??d}catch{return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}};
+
+/* Modèles et niveaux d'effort, propres à chaque interface */
+const MODELS={
+works:[
+{id:"nexora-3.5-light",n:"Aureon 3.8 Lite",d:"Très rapide pour les demandes simples."},
+{id:"nexora-3.5",n:"Aureon 5.4 Pro",d:"Plus précis pour les tâches exigeantes.",tag:"Recommandé"},
+{id:"nexora-3.5-pro-light",n:"Veltrix 4.2 Lite",d:"Rapide et léger pour les demandes courantes."},
+{id:"nexora-3.5-pro",n:"Veltrix 6.7 Pro",d:"Plus avancé pour les travaux complexes."}],
+codex:[
+{id:"nexora-code-3.5-light",n:"Krylex 3.6 Lite",d:"Rapide pour les petites fonctions et corrections."},
+{id:"nexora-code-3.5-pro-light",n:"Krylex 5.6 Pro",d:"Bon équilibre pour programmer au quotidien.",tag:"Recommandé"},
+{id:"nexora-code-3.5-pro",n:"Krylex 8.2 Ultra",d:"Pour les tâches de programmation les plus difficiles."},
+{id:"nexora-code-3.5-pro-max",n:"Arqen 4.1 Lite",d:"Rapide pour les petits projets et correctifs."},
+{id:"nexora-code-3.5-pro-max-2",n:"Arqen 7.3 Ultra",d:"Puissant pour les architectures et problèmes complexes."}]};
+const LEVELS={
+works:[["Léger","Réponses rapides et concises","normal"],["Standard","Équilibre entre vitesse et qualité","medium"],["Approfondi","Réflexion plus poussée","high"],["Maximal","Raisonnement le plus poussé","extra"]],
+codex:[["Rapide","Petites corrections, réponse immédiate","medium"],["Équilibré","Code fiable pour la plupart des tâches","high"],["Approfondi","Planifie et vérifie avant de répondre","extra"],["Intense","Architecture et bugs difficiles","ultra"]]};
+const sel=Object.assign({works:{m:1,l:1},codex:{m:1,l:2}},store.get("nexora_sel3",{}));
+const API_MODE={works:"work",codex:"code"};
+let mode="works",switching=false;
+
+/* Changement d'interface : le thème se propage en cercle depuis le bouton */
+function applyMode(m){
+ mode=m;document.documentElement.dataset.mode=m;
+ document.querySelectorAll("#sw button").forEach(b=>{const on=b.dataset.m===m;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on)});
+ if(typeof applyPrefs==="function")applyPrefs();
+ closeMenus();
+}
+function setMode(m,ev){
+ if(m===mode||switching)return;
+ if(!document.startViewTransition||matchMedia("(prefers-reduced-motion: reduce)").matches){applyMode(m);inputs[m].focus({preventScroll:true});return}
+ const r=ev.currentTarget.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2;
+ const R=Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y));
+ switching=true;
+ const t=document.startViewTransition(()=>applyMode(m));
+ t.ready.then(()=>document.documentElement.animate({clipPath:["circle(0px at "+x+"px "+y+"px)","circle("+R+"px at "+x+"px "+y+"px)"]},{duration:700,easing:"cubic-bezier(.65,0,.2,1)",pseudoElement:"::view-transition-new(root)"})).catch(()=>{});
+ t.finished.finally(()=>{switching=false;inputs[m].focus({preventScroll:true})});
+}
+document.querySelectorAll("#sw button").forEach(b=>b.onclick=e=>setMode(b.dataset.m,e));
+
+/* Zone de saisie : modèle et effort */
+const inputs={},btns={},busy={},history={works:[],codex:[]},sent={works:[],codex:[]};
+const PH={works:"Écrivez votre message",codex:"Décrivez ce que le code doit faire, ou collez-le ici"};
+const CHEV='<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+const GEAR='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>';
+const SEND='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
+const bars=n=>'<span class="lv">'+[0,1,2,3].map(i=>"<i"+(i<=n?' class="on"':"")+"></i>").join("")+"</span>";
+const M=v=>MODELS[v][sel[v].m];
+function closeMenus(){document.querySelectorAll(".menu.open").forEach(m=>m.classList.remove("open"));document.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-expanded","false"))}
+function refreshChips(v){
+ const c=$("cmp-"+v);
+ c.querySelector('[data-k="m"].chip').innerHTML=M(v).n+" "+CHEV;
+ c.querySelector('[data-k="e"].chip').innerHTML=bars(sel[v].l)+" "+LEVELS[v][sel[v].l][0]+" "+CHEV;
+}
+function fillMenu(v,k){
+ if(k==="s")return fillSettings(v);
+ const menu=$("cmp-"+v).querySelector('.menu[data-k="'+k+'"]');menu.innerHTML='<div class="mh">'+(k==="m"?"Modèle":"Niveau de réflexion")+"</div>";
+ const items=k==="m"?MODELS[v].map(x=>[x.n,x.d,x.tag]):LEVELS[v].map(x=>[x[0],x[1]]);
+ items.forEach(([n,d,tag],i)=>{
+  const b=document.createElement("button");b.type="button";b.className="mi"+(i===sel[v][k==="m"?"m":"l"]?" on":"");
+  b.innerHTML="<span><b>"+n+"</b><small>"+d+"</small></span>"+(tag?'<span class="tag">'+tag+"</span>":(k==="e"?bars(i):""));
+  b.onclick=()=>{sel[v][k==="m"?"m":"l"]=i;store.set("nexora_sel3",sel);refreshChips(v);closeMenus()};
+  menu.appendChild(b);
+ });
+ if(k==="e")menu.insertAdjacentHTML("beforeend",'<p class="mn">Plus le niveau monte, plus la réponse est détaillée, vérifiée et accompagnée de pistes.</p>');
+}
+["works","codex"].forEach(v=>{
+ const c=$("cmp-"+v);
+ c.innerHTML='<div class="cbox"><div class="menu" data-k="m"></div><div class="menu" data-k="e"></div><div class="menu" data-k="s"></div><div class="card"><textarea rows="1" aria-label="Message"></textarea><div class="bar"><button type="button" class="chip mdl" data-k="m" aria-expanded="false" aria-label="Modèle"></button><button type="button" class="chip" data-k="e" aria-expanded="false" aria-label="Niveau d’effort"></button><button type="button" class="chip gear" data-k="s" aria-expanded="false" aria-label="Réglages" title="Réglages">'+GEAR+'</button><button type="button" class="send" aria-label="Envoyer">'+SEND+'</button></div></div><p class="hint">Entrée pour envoyer · Maj + Entrée pour une nouvelle ligne · ↑ pour rappeler</p></div>';
+ const t=c.querySelector("textarea");t.placeholder=PH[v];inputs[v]=t;btns[v]=c.querySelector(".send");
+ t.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();doSend(v,t.value)}else if(e.key==="ArrowUp"&&!t.value&&sent[v].length){e.preventDefault();t.value=sent[v][sent[v].length-1];t.dispatchEvent(new Event("input"))}});
+ t.addEventListener("input",()=>{t.style.height="auto";t.style.height=Math.min(t.scrollHeight,200)+"px"});
+ btns[v].onclick=()=>doSend(v,t.value);
+ c.querySelectorAll(".chip").forEach(ch=>ch.onclick=e=>{e.stopPropagation();const k=ch.dataset.k,menu=c.querySelector('.menu[data-k="'+k+'"]'),was=menu.classList.contains("open");closeMenus();if(!was){fillMenu(v,k);menu.classList.add("open");ch.setAttribute("aria-expanded","true")}});
+ refreshChips(v);
+});
+document.addEventListener("click",e=>{if(!e.target.closest(".menu"))closeMenus()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMenus()});
+
+const SUG={
+works:[["Rédiger un e-mail","Rédige un e-mail professionnel pour "],["Résumer un texte","Résume le texte suivant en points clés :\n"],["Préparer un plan","Prépare un plan détaillé pour "],["Reformuler un message","Reformule ce message de façon claire et courtoise :\n"]],
+codex:[["Écrire une fonction","Écris une fonction qui "],["Corriger un bug","Corrige le bug dans ce code :\n"],["Expliquer du code","Explique ce code étape par étape :\n"],["Écrire des tests","Écris des tests pour ce code :\n"]]};
+document.querySelectorAll(".sg").forEach(g=>SUG[g.dataset.m].forEach(([t,p])=>{const b=document.createElement("button");b.type="button";b.textContent=t;b.onclick=()=>{const i=inputs[g.dataset.m];i.value=p;i.dispatchEvent(new Event("input"));i.focus()};g.appendChild(b)}));
+
+/* Rendu des réponses */
+const eh=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+function inl(s){
+ const k=[];s=s.replace(/`([^`\n]+)`/g,(_,c)=>"\x00"+(k.push(c)-1)+"\x00");
+ s=eh(s).replace(/"([^"\n]+)"/g,"\u00ab\u202f$1\u202f\u00bb").replace(/(\p{L})'(\p{L})/gu,"$1\u2019$2")
+  .replace(/\*\*([^*\n]+?)\*\*/g,"<strong>$1</strong>").replace(/__([^_\n]+?)__/g,"<u>$1</u>")
+  .replace(/(^|[\s(])\*([^*\n]+?)\*(?=[\s).,;:!?]|$)/g,"$1<em>$2</em>").replace(/(^|[\s(])_([^_\n]+?)_(?=[\s).,;:!?]|$)/g,"$1<em>$2</em>")
+  .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
+ return s.replace(/\x00(\d+)\x00/g,(_,i)=>"<code>"+eh(k[i])+"</code>");
+}
+function md(text){
+ const L=text.replace(/\r/g,"").split("\n");let h="",i=0,m;
+ const T=l=>/^\s*\|.*\|\s*$/.test(l),UL=/^\s*[-*\u2022]\s+/,OL=/^\s*\d+[.)]\s+/;
+ while(i<L.length){const l=L[i];
+  if(!l.trim()){i++;continue}
+  if(/^\s*(---+|\*\*\*+)\s*$/.test(l)){h+="<hr>";i++;continue}
+  if((m=l.match(/^\s*(#{1,4})\s+(.*)$/))){const n=Math.min(m[1].length,3);h+="<h"+n+">"+inl(m[2])+"</h"+n+">";i++;continue}
+  if(/^\s*>/.test(l)){const b=[];while(i<L.length&&/^\s*>/.test(L[i]))b.push(L[i++].replace(/^\s*>\s?/,""));h+="<blockquote>"+md(b.join("\n"))+"</blockquote>";continue}
+  if(UL.test(l)){const t=[];while(i<L.length&&UL.test(L[i]))t.push("<li>"+inl(L[i++].replace(UL,""))+"</li>");h+="<ul>"+t.join("")+"</ul>";continue}
+  if(OL.test(l)){const t=[];while(i<L.length&&OL.test(L[i]))t.push("<li>"+inl(L[i++].replace(OL,""))+"</li>");h+="<ol>"+t.join("")+"</ol>";continue}
+  if(T(l)&&L[i+1]&&/^\s*\|[\s:|-]+\|\s*$/.test(L[i+1])){
+   const c=r=>r.trim().replace(/^\||\|$/g,"").split("|").map(x=>inl(x.trim()));
+   let t="<table><thead><tr>"+c(l).map(x=>"<th>"+x+"</th>").join("")+"</tr></thead><tbody>";i+=2;
+   while(i<L.length&&T(L[i]))t+="<tr>"+c(L[i++]).map(x=>"<td>"+x+"</td>").join("")+"</tr>";
+   h+=t+"</tbody></table>";continue}
+  const p=[L[i++]];while(i<L.length&&L[i].trim()&&!/^\s*(#{1,4}\s|>|[-*\u2022]\s|\d+[.)]\s|---|\|)/.test(L[i]))p.push(L[i++]);
+  h+="<p>"+p.map(inl).join("<br>")+"</p>";}
+ return h;
+}
+const KW=/(\/\/.*|#.*)|("(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*'|`(?:\\.|[^`\\])*`)|\b(\d+(?:\.\d+)?)\b|\b(function|const|let|var|return|if|else|elif|for|while|class|import|from|export|default|new|async|await|try|catch|except|throw|raise|def|in|of|not|and|or|with|as|pass|lambda|switch|case|break|continue|true|false|null|undefined|None|True|False|print)\b|\b([A-Za-z_]\w*)(?=\s*\()/g;
+function hl(src){let o="",l=0,m;KW.lastIndex=0;
+ while((m=KW.exec(src))){o+=eh(src.slice(l,m.index))+'<span class="'+(m[1]?"c":m[2]?"s":m[3]?"n":m[4]?"k":"f")+'">'+eh(m[0])+"</span>";l=KW.lastIndex}
+ return o+eh(src.slice(l));}
+function render(text,box){
+ const re=/```([\w+-]*)\n?([\s\S]*?)```/g;let last=0,m;
+ const seg=s=>{if(s.trim()){const d=document.createElement("div");d.className="md";d.innerHTML=md(s);box.appendChild(d)}};
+ while((m=re.exec(text))){
+  seg(text.slice(last,m.index));last=re.lastIndex;
+  const code=m[2].replace(/\n$/,""),w=document.createElement("div");w.className="cb";
+  const h=document.createElement("div");h.className="cb-h";h.innerHTML="<span>"+eh(m[1]||"code")+"</span>";
+  const cp=document.createElement("button");cp.type="button";cp.textContent="Copier";
+  cp.onclick=async()=>{try{await navigator.clipboard.writeText(code);cp.textContent="Copié"}catch{cp.textContent="Échec"}setTimeout(()=>cp.textContent="Copier",1400)};
+  h.appendChild(cp);const pre=document.createElement("pre");pre.innerHTML=hl(code);w.append(h,pre);box.appendChild(w);}
+ seg(text.slice(last));
+}
+function add(v,role,text,cls){
+ const log=$("log-"+v),inn=$("in-"+v);inn.querySelector(".welcome")?.remove();
+ const r=document.createElement("div");r.className="msg "+role;
+ const b=document.createElement("div");b.className="b "+(cls||"");
+ if(role==="assistant"&&!cls)render(text,b);else b.textContent=text;
+ if(role==="assistant"&&!cls){const a=document.createElement("div");a.className="act";const cp=document.createElement("button");cp.type="button";cp.innerHTML="<span>Copier</span>";
+  cp.onclick=async()=>{try{await navigator.clipboard.writeText(text);cp.firstChild.textContent="Copié"}catch{cp.firstChild.textContent="Échec"}setTimeout(()=>cp.firstChild.textContent="Copier",1400)};a.appendChild(cp);b.appendChild(a)}
+ r.appendChild(b);inn.appendChild(r);log.scrollTo({top:log.scrollHeight,behavior:"smooth"});return r;
+}
+const PHRASES={works:["Analyse de la demande","Recherche des idées","Structuration","Rédaction"],codex:["Lecture du contexte","Planification","Écriture du code","Vérification"]};
+function thinking(v){
+ const log=$("log-"+v),inn=$("in-"+v);inn.querySelector(".welcome")?.remove();
+ const r=document.createElement("div");r.className="msg assistant";
+ const ph=PHRASES[v].slice(0,5);
+ r.innerHTML='<div class="b think"><div class="tk-h"><svg class="tk-mark" aria-hidden="true"><use href="#lg"/></svg><span class="tk-lb">'+(v==="codex"?"Analyse en cours":"Réflexion en cours")+'</span></div><ol class="tk-s">'+ph.map((p,k)=>'<li class="'+(k?"wait":"now")+'"><i></i><span>'+eh(p)+'</span></li>').join("")+'</ol></div>';
+ const li=[...r.querySelectorAll("li")];let n=0;
+ const iv=setInterval(()=>{if(!r.isConnected){clearInterval(iv);return}if(n<li.length-1){li[n].className="done";li[++n].className="now"}},[260,330,450,600][sel[v].l]||450);
+ inn.appendChild(r);log.scrollTo({top:log.scrollHeight,behavior:"smooth"});return r;
+}
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+async function doSend(v,text){
+ text=text.trim();if(!text||busy[v])return;
+ busy[v]=1;btns[v].disabled=true;inputs[v].value="";inputs[v].style.height="auto";closeMenus();
+ const ur=add(v,"user",text);history[v].push({role:"user",content:text});sent[v].push(text);
+ /* Moteur de logique : comprendre, classer, décomposer, résoudre, vérifier */
+ const ctx={mode:v,level:sel[v].l,model:M(v).n};
+ let A=null;try{A=NexoraLogic.analyze(text,ctx)}catch{}
+ if(A)PHRASES[v]=A.phrases;
+ const th=thinking(v);
+ const t0=Date.now(),pause=async()=>{const m=[700,1100,1700,2400][sel[v].l]||1000;const w=m-(Date.now()-t0);if(w>0)await sleep(w)};
+ try{
+  let reply;
+  if(A&&A.certain){await pause();reply=A.md}            /* résultat exact : pas besoin du serveur */
+  else if(!API){
+   if(!A)throw new Error("Le serveur NEXORA n’est pas encore configuré.");
+   await pause();reply=A.md;
+  }else{
+   try{
+    const body=Object.assign({messages:history[v].slice(-30),version:M(v).id,mode:API_MODE[v],effort:LEVELS[v][sel[v].l][2]},A?NexoraLogic.payload(A,ctx):{});
+    const r=await fetch(API.replace(/\/+$/,"")+"/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
+    let d={};try{d=await r.json()}catch{}
+    if(!r.ok)throw new Error(d.error||"Erreur du serveur.");
+    reply=d.reply||d.output_text||d.output;if(!reply)throw new Error("Réponse vide du serveur.");
+   }catch(e){
+    if(!A)throw e;                                       /* repli : réponse du moteur local */
+    reply=A.md+"\n\n*Serveur indisponible : réponse produite par le moteur logique local.*";
+   }
+  }
+  th.remove();add(v,"assistant",reply);history[v].push({role:"assistant",content:reply});
+ }catch(e){th.remove();history[v].pop();const er=add(v,"assistant",e.message,"error"),a=document.createElement("div");a.className="act on";
+  const rb=document.createElement("button");rb.type="button";rb.textContent="Réessayer";rb.onclick=()=>{er.remove();ur.remove();doSend(v,text)};a.appendChild(rb);er.querySelector(".b").appendChild(a)}
+ finally{busy[v]=0;btns[v].disabled=false;inputs[v].focus()}
+}
+/* Réglages : thème, taille du texte, animations, nouvelle conversation */
+const prefs=Object.assign({theme:"dark",size:1,calm:false},store.get("nexora_prefs",{}));
+const mqDark=matchMedia("(prefers-color-scheme: dark)");
+function applyPrefs(){
+ const r=document.documentElement;
+ r.dataset.theme=prefs.theme==="auto"?(mqDark.matches?"dark":"light"):prefs.theme;
+ r.style.setProperty("--fsx",prefs.size);r.classList.toggle("calm",!!prefs.calm);
+ requestAnimationFrame(()=>{const c=getComputedStyle(r).getPropertyValue("--bg").trim();if(c)document.querySelector("meta[name=theme-color]").content=c});
+}
+mqDark.addEventListener&&mqDark.addEventListener("change",()=>{if(prefs.theme==="auto")applyPrefs()});
+const W0={};["works","codex"].forEach(v=>W0[v]=$("in-"+v).querySelector(".welcome"));
+function newChat(v){history[v]=[];$("in-"+v).replaceChildren(W0[v]);inputs[v].focus()}
+function seg(label,key,opts){return'<div class="row"><span>'+label+'</span><div class="segc" data-p="'+key+'">'+opts.map(([val,txt])=>'<button type="button" data-v="'+val+'"'+(String(prefs[key])===String(val)?' class="on"':"")+">"+txt+"</button>").join("")+"</div></div>"}
+function fillSettings(v){
+ const menu=$("cmp-"+v).querySelector('.menu[data-k="s"]');
+ menu.innerHTML='<div class="mh">Réglages</div>'+seg("Thème","theme",[["dark","Sombre"],["light","Clair"],["auto","Auto"]])+seg("Texte","size",[[0.92,"A−"],[1,"A"],[1.12,"A+"]])+seg("Animations","calm",[[false,"Activées"],[true,"Réduites"]])+'<button type="button" class="mi act-new"><span><b>Nouvelle conversation</b><small>Efface la discussion de cette interface</small></span></button>';
+ menu.querySelectorAll(".segc button").forEach(b=>b.onclick=e=>{e.stopPropagation();const k=b.parentNode.dataset.p,x=b.dataset.v;prefs[k]=x==="true"?true:x==="false"?false:isNaN(+x)?x:+x;store.set("nexora_prefs",prefs);applyPrefs();fillSettings(v)});
+ menu.querySelector(".act-new").onclick=()=>{newChat(v);closeMenus()};
+}
+applyPrefs();
+(async()=>{
+ if(!API){$("stt").textContent="Serveur non configuré";return}
+ try{const r=await fetch(API.replace(/\/+$/,"")+"/api/health");const j=await r.json();const ok=j.ok&&(j.aiConfigured??true);$("sd").className="sd "+(ok?"ok":"");$("stt").textContent=ok?"IA connectée":"Serveur connecté"}
+ catch{$("sd").className="sd er";$("stt").textContent="Serveur indisponible"}
+})();
+</script>
+</body>
+</html>
